@@ -2,10 +2,10 @@
 FROM node:12
 
 # Set working directory for future use
-WORKDIR /skills_api
+WORKDIR /usr/src/app
 
 # Copy the current directory into the Docker image
-COPY . /skills_api
+COPY . /usr/src/app
 
 # Install the dependencies from package.json
 RUN npm install
