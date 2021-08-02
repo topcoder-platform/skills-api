@@ -11,7 +11,7 @@ COPY . /skills_api
 RUN npm install
 
 # Expose port
-EXPOSE ${PORT}
+EXPOSE 3000
 
 # start api
 CMD npm start
