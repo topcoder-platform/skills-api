@@ -153,5 +153,5 @@ These tokens have been signed with the secret `CLIENT_SECRET`. This secret shoul
 
 ## Documentation
 
-- [permissions.html](docs/permissions.html) - the list of all permissions in Skills API.
+- [permissions.html](https://htmlpreview.github.io/?https://github.com/topcoder-platform/skills-api/blob/develop/docs/permissions.html) - the list of all permissions in Skills API.
 - [swagger.yaml](docs/swagger.yaml) - the Swagger API Definition.
