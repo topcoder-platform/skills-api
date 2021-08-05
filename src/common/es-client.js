@@ -27,7 +27,7 @@ function getESClient () {
     })
   } else {
     if (/.*amazonaws.*/.test(host)) {
-      esClient = elasticsearch.Client({
+      esClient = new elasticsearch.Client({
         apiVersion: config.get('ES.ES_API_VERSION'),
         hosts: host,
         connectionClass: require('http-aws-es'), // eslint-disable-line global-require
