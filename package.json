@@ -37,7 +37,7 @@
     "tc-core-library-js": "github:appirio-tech/tc-core-library-js#v2.6.4",
     "umzug": "^2.3.0",
     "aws-sdk": "^2.610.0",
-    "http-aws-es": "^4.0.0",
+    "http-aws-es": "^6.0.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
