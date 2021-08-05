@@ -24,6 +24,7 @@ module.exports = {
   ES: {
     HOST: process.env.ES_HOST || 'http://localhost:9200',
     ES_REFRESH: process.env.ES_REFRESH || 'true',
+    ES_API_VERSION: process.env.ES_API_VERSION || "7.4",
 
     ELASTICCLOUD: {
       id: process.env.ELASTICCLOUD_ID,

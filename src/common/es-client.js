@@ -26,9 +26,17 @@ function getESClient () {
       }
     })
   } else {
-    esClient = new elasticsearch.Client({
-      node: host
-    })
+    if (/.*amazonaws.*/.test(host)) {
+      esClient = elasticsearch.Client({
+        apiVersion: config.get('ES.ES_API_VERSION'),
+        hosts: host,
+        connectionClass: require('http-aws-es'), // eslint-disable-line global-require
+      });
+    } else {
+      esClient = new elasticsearch.Client({
+        node: host
+      })
+    }
   }
   return esClient
 }
