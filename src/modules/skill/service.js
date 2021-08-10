@@ -4,11 +4,13 @@
 
 const joi = require('@hapi/joi')
 const _ = require('lodash')
+const config = require('config')
 
 const errors = require('../../common/errors')
 const helper = require('../../common/helper')
 const dbHelper = require('../../common/db-helper')
 const serviceHelper = require('../../common/service-helper')
+const constants = require('../../constants')
 const { PERMISSION } = require('../../permissions/constants')
 const sequelize = require('../../models/index')
 
@@ -32,12 +34,24 @@ async function create (entity, auth) {
   const taxonomy = await dbHelper.get(Taxonomy, entity.taxonomyId)
   await dbHelper.makeSureUnique(Skill, entity, uniqueFields)
 
-  const result = await dbHelper.create(Skill, entity, auth)
-  const created = result.dataValues
-  created.taxonomyName = taxonomy.name
-  await serviceHelper.createRecordInEs(resource, created)
+  let payload
+  try {
+    return await sequelize.transaction(async () => {
+      const result = await dbHelper.create(Skill, entity, auth)
 
-  return helper.omitAuditFields(created)
+      payload = result.dataValues
+
+      const created = { ...result.dataValues, taxonomyName: taxonomy.name }
+      await serviceHelper.createRecordInEs(resource, created)
+
+      return helper.omitAuditFields(created)
+    })
+  } catch (e) {
+    if (payload) {
+      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.SkillCreate)
+    }
+    throw e
+  }
 }
 
 create.schema = {
@@ -82,19 +96,31 @@ async function patch (id, entity, auth) {
     }
   }
 
-  const newEntity = await instance.update({
-    ...entity,
-    updatedBy: helper.getAuthUser(auth)
-  })
+  let payload
+  try {
+    return await sequelize.transaction(async () => {
+      const newEntity = await instance.update({
+        ...entity,
+        updatedBy: helper.getAuthUser(auth)
+      })
 
-  if (!taxonomy) {
-    taxonomy = await dbHelper.get(Taxonomy, newEntity.taxonomyId)
+      payload = newEntity.dataValues
+
+      if (!taxonomy) {
+        taxonomy = await dbHelper.get(Taxonomy, newEntity.taxonomyId)
+      }
+      const updated = { ...newEntity.dataValues, taxonomyName: taxonomy.name }
+
+      await serviceHelper.patchRecordInEs(resource, updated)
+
+      return helper.omitAuditFields(updated)
+    })
+  } catch (e) {
+    if (payload) {
+      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.SkillUpdate)
+    }
+    throw e
   }
-  const updated = newEntity.dataValues
-  updated.taxonomyName = taxonomy.name
-  await serviceHelper.patchRecordInEs(resource, updated)
-
-  return helper.omitAuditFields(updated)
 }
 
 patch.schema = {
@@ -198,7 +224,7 @@ async function search (query) {
 
 search.schema = {
   query: {
-    page: joi.string().uuid(),
+    page: joi.page(),
     perPage: joi.pageSize(),
     taxonomyId: joi.string().uuid(),
     name: joi.string(),
@@ -215,8 +241,16 @@ search.schema = {
  * @return no data returned
  */
 async function remove (id, auth, params) {
-  await dbHelper.remove(Skill, id)
-  await serviceHelper.deleteRecordFromEs(id, params, resource)
+  const payload = { id }
+  try {
+    return await sequelize.transaction(async () => {
+      await dbHelper.remove(Skill, id)
+      await serviceHelper.deleteRecordFromEs(id, params, resource)
+    })
+  } catch (e) {
+    helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.SkillDelete)
+    throw e
+  }
 }
 
 remove.schema = {

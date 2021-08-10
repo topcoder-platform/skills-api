@@ -9,6 +9,7 @@ const logger = require('./common/logger')
 const joi = require('@hapi/joi')
 
 joi.id = () => joi.number().integer().min(1)
+joi.page = () => joi.number().integer().min(1)
 joi.pageSize = () => joi.number().integer().min(1).max(config.get('MAX_PAGE_SIZE'))
 joi.prominence = (name) => joi.string().custom((value, helper) => {
   // check if value is in the range [0, 1]

@@ -8,35 +8,13 @@ const config = require('config')
 const topResources = {
   taxonomy: {
     index: config.get('ES.DOCUMENTS.taxonomy.index'),
-    type: config.get('ES.DOCUMENTS.taxonomy.type'),
-    enrich: {
-      policyName: config.get('ES.DOCUMENTS.taxonomy.enrichPolicyName'),
-      matchField: 'id',
-      enrichFields: ['id', 'name', 'created', 'updated', 'createdBy', 'updatedBy']
-    },
-    pipeline: {
-      id: config.get('ES.DOCUMENTS.taxonomy.pipelineId'),
-      field: 'taxonomyId',
-      targetField: 'taxonomy',
-      maxMatches: '1'
-    }
+    type: config.get('ES.DOCUMENTS.taxonomy.type')
   },
 
   skill: {
     index: config.get('ES.DOCUMENTS.skill.index'),
-    type: config.get('ES.DOCUMENTS.skill.type'),
-    enrich: {
-      policyName: config.get('ES.DOCUMENTS.skill.enrichPolicyName'),
-      matchField: 'id',
-      enrichFields: ['id', 'taxonomyId', 'name', 'externalId', 'uri', 'created', 'updated', 'createdBy', 'updatedBy', 'taxonomyName']
-    },
-    ingest: {
-      pipeline: {
-        id: config.get('ES.DOCUMENTS.taxonomy.pipelineId')
-      }
-    }
+    type: config.get('ES.DOCUMENTS.skill.type')
   }
-
 }
 
 const modelToESIndexMapping = {

@@ -24,6 +24,5 @@ module.exports = {
   newAuthError: msg => new AppError(401, msg || 'Auth failed.'),
   newPermissionError: msg => new AppError(403, msg || 'The entity does not exist.'),
   newConflictError: msg => new AppError(409, msg || 'The entity does not exist.'),
-  deleteConflictError: msg => new AppError(400, msg || 'Please delete child records first'),
-  elasticSearchEnrichError: msg => new AppError(500, msg || 'Elasticsearch enrich failed')
+  deleteConflictError: msg => new AppError(400, msg || 'Please delete child records first')
 }
