@@ -4,11 +4,13 @@
 
 const joi = require('@hapi/joi')
 const _ = require('lodash')
+const config = require('config')
 
 const errors = require('../../common/errors')
 const helper = require('../../common/helper')
 const dbHelper = require('../../common/db-helper')
 const serviceHelper = require('../../common/service-helper')
+const constants = require('../../constants')
 const { PERMISSION } = require('../../permissions/constants')
 const sequelize = require('../../models/index')
 
@@ -28,10 +30,22 @@ async function create (entity, auth) {
     serviceHelper.hasPermission(PERMISSION.ADD_TAXONOMY_METADATA, auth)
   }
 
-  const result = await dbHelper.create(Taxonomy, entity, auth)
+  let payload
+  try {
+    return await sequelize.transaction(async () => {
+      const result = await dbHelper.create(Taxonomy, entity, auth)
 
-  await serviceHelper.createRecordInEs(resource, result.dataValues)
-  return helper.omitAuditFields(result.dataValues)
+      payload = result.dataValues
+
+      await serviceHelper.createRecordInEs(resource, result.dataValues)
+      return helper.omitAuditFields(result.dataValues)
+    })
+  } catch (e) {
+    if (payload) {
+      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.TaxonomyCreate)
+    }
+    throw e
+  }
 }
 
 create.schema = {
@@ -64,13 +78,24 @@ async function patch (id, entity, auth) {
     }
   }
 
-  const newEntity = await instance.update({
-    ...entity,
-    updatedBy: helper.getAuthUser(auth)
-  })
+  let payload
+  try {
+    return await sequelize.transaction(async () => {
+      const newEntity = await instance.update({
+        ...entity,
+        updatedBy: helper.getAuthUser(auth)
+      })
+      payload = newEntity.dataValues
 
-  await serviceHelper.patchRecordInEs(resource, newEntity.dataValues)
-  return helper.omitAuditFields(newEntity.dataValues)
+      await serviceHelper.patchRecordInEs(resource, newEntity.dataValues)
+      return helper.omitAuditFields(newEntity.dataValues)
+    })
+  } catch (e) {
+    if (payload) {
+      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.TaxonomyUpdate)
+    }
+    throw e
+  }
 }
 
 patch.schema = {
@@ -135,7 +160,7 @@ async function search (query) {
 
 search.schema = {
   query: {
-    page: joi.string().uuid(),
+    page: joi.page(),
     perPage: joi.pageSize(),
     name: joi.string()
   }
@@ -154,8 +179,16 @@ async function remove (id, auth, params) {
     throw errors.deleteConflictError(`Please delete ${Skill.name} with ids ${existing.map(o => o.id)}`)
   }
 
-  await dbHelper.remove(Taxonomy, id)
-  await serviceHelper.deleteRecordFromEs(id, params, resource)
+  const payload = { id }
+  try {
+    return await sequelize.transaction(async () => {
+      await dbHelper.remove(Taxonomy, id)
+      await serviceHelper.deleteRecordFromEs(id, params, resource)
+    })
+  } catch (e) {
+    helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.TaxonomyDelete)
+    throw e
+  }
 }
 
 remove.schema = {

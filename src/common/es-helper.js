@@ -303,7 +303,7 @@ async function searchElasticSearch (resource, ...args) {
   const preResFilters = parseResourceFilter(resource, params, false)
   const preResFilterResults = []
   // resolve pre resource filters
-  if (!params.enrich && preResFilters.length > 0) {
+  if (preResFilters.length > 0) {
     for (const filter of preResFilters) {
       const resolved = await resolveResFilter(filter, resource)
       preResFilterResults.push(resolved)
@@ -333,7 +333,7 @@ async function searchElasticSearch (resource, ...args) {
   }
 
   // set pre res filter results
-  if (!params.enrich && preResFilterResults.length > 0) {
+  if (preResFilterResults.length > 0) {
     for (const filter of preResFilterResults) {
       const matchField = `${filter.queryField}`
       setFilterValueToEsQuery(esQuery, matchField, filter.value, filter.queryField)
@@ -342,7 +342,7 @@ async function searchElasticSearch (resource, ...args) {
 
   const ownResFilters = parseResourceFilter(resource, params, true)
   // set it's own res filter to the main query
-  if (!params.enrich && ownResFilters.length > 0) {
+  if (ownResFilters.length > 0) {
     setResourceFilterToEsQuery(ownResFilters, esQuery)
   }
 

@@ -4,11 +4,13 @@
 
 const joi = require('@hapi/joi')
 const _ = require('lodash')
+const config = require('config')
 
 const errors = require('../../common/errors')
 const helper = require('../../common/helper')
 const dbHelper = require('../../common/db-helper')
 const serviceHelper = require('../../common/service-helper')
+const constants = require('../../constants')
 const { PERMISSION } = require('../../permissions/constants')
 const sequelize = require('../../models/index')
 
@@ -20,16 +22,30 @@ const resource = serviceHelper.getResource('Taxonomy')
  * @param instance the taxonomy instance
  * @param metadata the new metadata
  * @param auth the auth object
+ * @param action for which operation performed
  * @return the updated taxonomy
  */
-async function updateMetaData (instance, metadata, auth) {
-  const newEntity = await instance.update({
-    ...instance.dataValues,
-    updatedBy: helper.getAuthUser(auth),
-    metadata
-  })
-  await serviceHelper.patchRecordInEs(resource, newEntity.dataValues)
-  return helper.omitAuditFields(newEntity.dataValues)
+async function updateMetaData (instance, metadata, auth, action) {
+  let payload
+  try {
+    return await sequelize.transaction(async () => {
+      const newEntity = await instance.update({
+        ...instance.dataValues,
+        updatedBy: helper.getAuthUser(auth),
+        metadata
+      })
+
+      payload = newEntity.dataValues
+
+      await serviceHelper.patchRecordInEs(resource, newEntity.dataValues)
+      return helper.omitAuditFields(newEntity.dataValues)
+    })
+  } catch (e) {
+    if (payload) {
+      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, action)
+    }
+    throw e
+  }
 }
 
 /**
@@ -51,7 +67,7 @@ async function fullyUpdate (id, entity, auth) {
     serviceHelper.hasPermission(PERMISSION.DELETE_TAXONOMY_METADATA, auth)
   }
 
-  return updateMetaData(instance, entity, auth)
+  return updateMetaData(instance, entity, auth, constants.API_ACTION.TaxonomyPutMetadata)
 }
 
 fullyUpdate.schema = {
@@ -83,7 +99,7 @@ async function particallyUpdate (id, entity, auth) {
     serviceHelper.hasPermission(PERMISSION.UPDATE_TAXONOMY_METADATA, auth)
   }
 
-  return updateMetaData(instance, { ...instance.dataValues.metadata, ...entity }, auth)
+  return updateMetaData(instance, { ...instance.dataValues.metadata, ...entity }, auth, constants.API_ACTION.TaxonomyPatchMetadata)
 }
 
 particallyUpdate.schema = {
@@ -108,7 +124,7 @@ async function remove (id, fields, auth) {
     throw errors.NotFoundError(`Metadata fields: ${nonExistingFields} do not exist`)
   }
 
-  return updateMetaData(instance, _.omit(instance.dataValues.metadata, fields), auth)
+  return updateMetaData(instance, _.omit(instance.dataValues.metadata, fields), auth, constants.API_ACTION.TaxonomyDeleteMetadata)
 }
 
 remove.schema = {
