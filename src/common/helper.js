@@ -1,6 +1,11 @@
 const querystring = require('querystring')
 const _ = require('lodash')
 const { getControllerMethods } = require('./controller-helper')
+const logger = require('./logger')
+const config = require('config')
+const busApi = require('@topcoder-platform/topcoder-bus-api-wrapper')
+const busApiClient = busApi(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_TIME', 'AUTH0_CLIENT_ID',
+  'AUTH0_CLIENT_SECRET', 'BUSAPI_URL', 'KAFKA_ERROR_TOPIC', 'AUTH0_PROXY_SERVER_URL']))
 
 /**
  * get auth user handle or id
@@ -90,9 +95,29 @@ function omitAuditFields (entity) {
   }
 }
 
+/**
+ * Send error event to Kafka
+ * @params {String} topic the topic name
+ * @params {Object} payload the payload
+ * @params {String} action for which operation error occurred
+ */
+async function publishError (topic, payload, action) {
+  _.set(payload, 'apiAction', action)
+  const message = {
+    topic,
+    originator: config.KAFKA_MESSAGE_ORIGINATOR,
+    timestamp: new Date().toISOString(),
+    'mime-type': 'application/json',
+    payload
+  }
+  logger.debug(`Publish error to Kafka topic ${topic}, ${JSON.stringify(message, null, 2)}`)
+  await busApiClient.postEvent(message)
+}
+
 module.exports = {
   getAuthUser,
   injectSearchMeta,
   getControllerMethods,
-  omitAuditFields
+  omitAuditFields,
+  publishError
 }

@@ -65,6 +65,8 @@ async function insertIntoES (esResourceName, data) {
 
 /**
  * updated ES record
+ * if the metadata field is provided existent metadata will be entirely replaced with the new value.
+ *
  * @param esResourceName the ES resource name
  * @param data the data to update
  */
@@ -75,7 +77,16 @@ async function updateESRecord (esResourceName, data) {
     type: resourceConfig.type,
     refresh: config.get('ES.ES_REFRESH'),
     id: data.id,
-    body: {
+    body: data.metadata ? {
+      script: {
+        lang: 'painless',
+        source: 'ctx._source = params.data; ctx._source.metadata = params.metadata',
+        params: {
+          data: _.omit(data, ['metadata']),
+          metadata: data.metadata
+        }
+      }
+    } : {
       doc: data
     }
   })
@@ -303,7 +314,7 @@ async function searchElasticSearch (resource, ...args) {
   const preResFilters = parseResourceFilter(resource, params, false)
   const preResFilterResults = []
   // resolve pre resource filters
-  if (!params.enrich && preResFilters.length > 0) {
+  if (preResFilters.length > 0) {
     for (const filter of preResFilters) {
       const resolved = await resolveResFilter(filter, resource)
       preResFilterResults.push(resolved)
@@ -333,7 +344,7 @@ async function searchElasticSearch (resource, ...args) {
   }
 
   // set pre res filter results
-  if (!params.enrich && preResFilterResults.length > 0) {
+  if (preResFilterResults.length > 0) {
     for (const filter of preResFilterResults) {
       const matchField = `${filter.queryField}`
       setFilterValueToEsQuery(esQuery, matchField, filter.value, filter.queryField)
@@ -342,7 +353,7 @@ async function searchElasticSearch (resource, ...args) {
 
   const ownResFilters = parseResourceFilter(resource, params, true)
   // set it's own res filter to the main query
-  if (!params.enrich && ownResFilters.length > 0) {
+  if (ownResFilters.length > 0) {
     setResourceFilterToEsQuery(ownResFilters, esQuery)
   }
 

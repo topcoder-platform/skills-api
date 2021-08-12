@@ -2,10 +2,20 @@
  * the model index
  */
 const { Sequelize } = require('sequelize')
+const cls = require('cls-hooked')
 const config = require('config')
+const constants = require('../constants')
 const fs = require('fs')
 const path = require('path')
 const logger = require('../common/logger')
+
+// Enable CLS so that when using a managed transaction the transaction will be
+// automatically passed to all queries within a callback chain.
+// No longer need to pass the transaction manually.
+//
+// See https://sequelize.org/master/manual/transactions.html for more info
+const namespace = cls.createNamespace(constants.SequelizeCLSNamespace)
+Sequelize.useCLS(namespace)
 
 /**
  * the database instance
