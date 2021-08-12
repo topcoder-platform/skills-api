@@ -43,7 +43,26 @@ const M2M_SCOPES = {
   }
 }
 
+const SequelizeCLSNamespace = 'skills-api'
+
+const API_ACTION = {
+  SkillCreate: 'skill.create',
+  SkillUpdate: 'skill.update',
+  SkillDelete: 'skill.delete',
+  SkillPutMetadata: 'skill.putMetadata',
+  SkillPatchMetadata: 'skill.patchMetadata',
+  SkillDeleteMetadata: 'skill.deleteMetadata',
+  TaxonomyCreate: 'taxonomy.create',
+  TaxonomyUpdate: 'taxonomy.update',
+  TaxonomyDelete: 'taxonomy.delete',
+  TaxonomyPutMetadata: 'taxonomy.putMetadata',
+  TaxonomyPatchMetadata: 'taxonomy.patchMetadata',
+  TaxonomyDeleteMetadata: 'taxonomy.deleteMetadata'
+}
+
 module.exports = {
   MANAGER_ROLES,
-  M2M_SCOPES
+  M2M_SCOPES,
+  SequelizeCLSNamespace,
+  API_ACTION
 }

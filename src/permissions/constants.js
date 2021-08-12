@@ -132,7 +132,7 @@ const PERMISSION = {
   CREATE_TAXONOMY: {
     meta: {
       title: 'Create Taxonomy',
-      group: 'Taxonomy Metadata'
+      group: 'Taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
     scopes: SCOPES_PROJECTS_WRITE
@@ -141,7 +141,7 @@ const PERMISSION = {
   UPDATE_TAXONOMY: {
     meta: {
       title: 'Update Taxonomy',
-      group: 'Taxonomy Metadata'
+      group: 'Taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
     scopes: SCOPES_PROJECTS_WRITE
@@ -150,7 +150,7 @@ const PERMISSION = {
   DELETE_TAXONOMY: {
     meta: {
       title: 'Delete Taxonomy',
-      group: 'Taxonomy Metadata'
+      group: 'Taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
     scopes: SCOPES_PROJECTS_WRITE
@@ -162,7 +162,7 @@ const PERMISSION = {
   ADD_TAXONOMY_METADATA: {
     meta: {
       title: 'Add Taxonomy Metadata',
-      group: 'Taxonomy',
+      group: 'Taxonomy Metadata',
       description: 'Add metadata fields in a taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
@@ -172,7 +172,7 @@ const PERMISSION = {
   UPDATE_TAXONOMY_METADATA: {
     meta: {
       title: 'Update Taxonomy Metadata',
-      group: 'Taxonomy',
+      group: 'Taxonomy Metadata',
       description: 'Update Metadata fields from a taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
@@ -182,7 +182,7 @@ const PERMISSION = {
   DELETE_TAXONOMY_METADATA: {
     meta: {
       title: 'Delete Taxonomy Metadata',
-      group: 'Taxonomy',
+      group: 'Taxonomy Metadata',
       description: 'Delete Metadata fields from a taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
