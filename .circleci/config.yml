@@ -68,6 +68,7 @@ workflows:
             branches:
               only:
                 - develop
+                - feature/enrich
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
