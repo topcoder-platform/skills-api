@@ -150,8 +150,8 @@ async function get (id, params, query = {}, fromDb = false) {
   const trueParams = _.assign(params, query)
   if (!fromDb) {
     const esResult = await serviceHelper.getRecordInEs(resource, id, trueParams)
-    await populateTaxonomyNames(esResult)
     if (esResult) {
+      await populateTaxonomyNames(esResult)
       return helper.omitAuditFields(esResult)
     }
   }
