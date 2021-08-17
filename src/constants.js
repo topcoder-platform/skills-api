@@ -49,15 +49,9 @@ const API_ACTION = {
   SkillCreate: 'skill.create',
   SkillUpdate: 'skill.update',
   SkillDelete: 'skill.delete',
-  SkillPutMetadata: 'skill.putMetadata',
-  SkillPatchMetadata: 'skill.patchMetadata',
-  SkillDeleteMetadata: 'skill.deleteMetadata',
   TaxonomyCreate: 'taxonomy.create',
   TaxonomyUpdate: 'taxonomy.update',
-  TaxonomyDelete: 'taxonomy.delete',
-  TaxonomyPutMetadata: 'taxonomy.putMetadata',
-  TaxonomyPatchMetadata: 'taxonomy.patchMetadata',
-  TaxonomyDeleteMetadata: 'taxonomy.deleteMetadata'
+  TaxonomyDelete: 'taxonomy.delete'
 }
 
 module.exports = {

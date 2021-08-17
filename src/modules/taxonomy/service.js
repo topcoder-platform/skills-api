@@ -57,7 +57,40 @@ create.schema = {
 }
 
 /**
- * patch taxonomy by id
+ * Update taxonomy by id. Used in functions patch and fullyUpdate.
+ *
+ * @param instance the taxonomy instance
+ * @param updateData the data to be updated
+ * @param auth the auth object
+ * @return the updated taxonomy
+ */
+async function update (instance, updateData, auth) {
+  let payload
+  try {
+    return await sequelize.transaction(async () => {
+      const newEntity = await instance.update({
+        ...updateData,
+        updatedBy: helper.getAuthUser(auth)
+      })
+
+      payload = newEntity.dataValues
+
+      await serviceHelper.patchRecordInEs(resource, newEntity.dataValues)
+
+      return helper.omitAuditFields(newEntity.dataValues)
+    })
+  } catch (e) {
+    if (payload) {
+      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.TaxonomyUpdate)
+    }
+    throw e
+  }
+}
+
+/**
+ * Patch taxonomy by id.
+ * If the metadata field is provided, existing metadata fields would be updated and new metadata fields would be added.
+ *
  * @param id the taxonomy id
  * @param entity the request taxonomy entity
  * @param auth the auth object
@@ -65,6 +98,48 @@ create.schema = {
  * @return the updated taxonomy
  */
 async function patch (id, entity, auth) {
+  const instance = await dbHelper.get(Taxonomy, id)
+
+  if (entity.metadata) {
+    const inputFields = Object.keys(entity.metadata)
+    const existingFields = Object.keys(instance.metadata)
+    const sharedFields = _.intersection(inputFields, existingFields)
+
+    if (inputFields.length > sharedFields.length) {
+      // check permission for adding new fields
+      serviceHelper.hasPermission(PERMISSION.ADD_TAXONOMY_METADATA, auth)
+    }
+    if (sharedFields.length) {
+      // check permission for updating fields
+      serviceHelper.hasPermission(PERMISSION.UPDATE_TAXONOMY_METADATA, auth)
+    }
+  }
+
+  const updateData = { ...instance, ...entity, metadata: { ...instance.metadata, ...entity.metadata } }
+
+  return update(instance, updateData, auth)
+}
+
+patch.schema = {
+  id: joi.string().uuid().required(),
+  entity: joi.object().keys({
+    name: joi.string(),
+    metadata: joi.object()
+  }).min(1).required(),
+  auth: joi.object()
+}
+
+/**
+ * Fully update taxonomy by id.
+ * Existing metadata fields would be entirely replace with the new ones.
+ *
+ * @param id the taxonomy id
+ * @param entity the request taxonomy entity
+ * @param auth the auth object
+ * @param params the query params
+ * @return the updated taxonomy
+ */
+async function fullyUpdate (id, entity, auth) {
   const instance = await dbHelper.get(Taxonomy, id)
 
   if (entity.metadata) {
@@ -78,32 +153,17 @@ async function patch (id, entity, auth) {
     }
   }
 
-  let payload
-  try {
-    return await sequelize.transaction(async () => {
-      const newEntity = await instance.update({
-        ...entity,
-        updatedBy: helper.getAuthUser(auth)
-      })
-      payload = newEntity.dataValues
+  const updateData = entity
 
-      await serviceHelper.patchRecordInEs(resource, newEntity.dataValues)
-      return helper.omitAuditFields(newEntity.dataValues)
-    })
-  } catch (e) {
-    if (payload) {
-      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.TaxonomyUpdate)
-    }
-    throw e
-  }
+  return update(instance, updateData, auth)
 }
 
-patch.schema = {
+fullyUpdate.schema = {
   id: joi.string().uuid().required(),
   entity: joi.object().keys({
-    name: joi.string(),
-    metadata: joi.object()
-  }).min(1).required(),
+    name: joi.string().required(),
+    metadata: joi.object().default({})
+  }).required(),
   auth: joi.object()
 }
 
@@ -201,6 +261,7 @@ module.exports = {
   create,
   search,
   patch,
+  fullyUpdate,
   get,
   remove
 }

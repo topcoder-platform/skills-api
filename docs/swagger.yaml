@@ -30,12 +30,8 @@ basePath: "/api/1.0"
 tags:
   - name: "Skills"
     description: "Skills registered in the system"
-  - name: "Skill Metadata"
-    description: "Metadata for Skills registered in the system"
   - name: "Taxonomies"
     description: "Taxonomies registered in the system"
-  - name: "Taxonomy Metadata"
-    description: "Metadata for Taxonomies registered in the system"
 schemes:
   - "https"
 consumes:
@@ -285,16 +281,16 @@ paths:
       tags:
         - "Skills"
       description: >
-        Update an existing skill with given id.
+        Partically update an existing skill with given id.
 
 
         **PERMISSION**
 
         1. permission `UPDATE_SKILL` is required to perform this operation
 
-        2. permission `ADD_SKILL_METADATA` is required if any metadata field is provided.
+        2. permission `ADD_SKILL_METADATA` is required if any new metadata field is provided.
 
-        3. permission `DELETE_SKILL_METADATA` is required if there is any existing metadata field in the skill.
+        3. permission `UPDATE_SKILL_METADATA` is required if any metadata field provided already exist in the skill.
       operationId: "skillsSkillIdPATCH"
       parameters:
         - name: "skillId"
@@ -329,21 +325,21 @@ paths:
         - Bearer: []
       x-swagger-router-controller: "Skills"
 
-  /skills/{skillId}/metadata:
     put:
       tags:
-        - "Skill Metadata"
+        - "Skills"
       description: >
-        Fully update the metadata of an existing skill with given id.
-
-        Used to entirely overwrite existing metadata.
+        Fully update an existing skill with given id.
 
 
         **PERMISSION**
 
-        1. permission `ADD_SKILL_METADATA` is required if any metadata field is provided.
+        1. permission `UPDATE_SKILL` is required to perform this operation
 
-        2. permission `DELETE_SKILL_METADATA` is required if there is any existing metadata field in the skill.
+        2. permission `ADD_SKILL_METADATA` is required if new metadata fields are provided.
+
+        3. permission `DELETE_SKILL_METADATA` is required if there is any existing metadata field in the skill.
+      operationId: "skillsSkillIdPUT"
       parameters:
         - name: "skillId"
           in: "path"
@@ -355,7 +351,7 @@ paths:
           name: "body"
           required: true
           schema:
-            $ref: "#/definitions/SkillMetadataUpdateRequestBody"
+            $ref: "#/definitions/SkillRequestBody"
       responses:
         "200":
           description: "OK - the request was successful"
@@ -369,94 +365,13 @@ paths:
           $ref: "#/definitions/Forbidden"
         "404":
           $ref: "#/definitions/NotFound"
+        "409":
+          $ref: "#/definitions/Conflict"
         "500":
           $ref: "#/definitions/ServerError"
       security:
         - Bearer: []
-    patch:
-      tags:
-        - "Skill Metadata"
-      description: >
-        Partically update the metadata of an existing skill with given id.
-
-        Used to update existing fields in metadata and to add new fields to metadata.
-
-
-        **PERMISSION**
-
-        1. permission `ADD_SKILL_METADATA` is required if any new metadata field is provided.
-
-        2. permission `UPDATE_SKILL_METADATA` is required if any metadata field provided already exist in the skill.
-      parameters:
-        - name: "skillId"
-          in: "path"
-          description: "The skill id"
-          required: true
-          type: "string"
-          format: "UUID"
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/SkillMetadataUpdateRequestBody"
-      responses:
-        "200":
-          description: "OK - the request was successful"
-          schema:
-            $ref: "#/definitions/Skill"
-        "400":
-          $ref: "#/definitions/BadRequest"
-        "401":
-          $ref: "#/definitions/Unauthorized"
-        "403":
-          $ref: "#/definitions/Forbidden"
-        "404":
-          $ref: "#/definitions/NotFound"
-        "500":
-          $ref: "#/definitions/ServerError"
-      security:
-        - Bearer: []
-    delete:
-      tags:
-        - "Skill Metadata"
-      description: >
-        Remove fields from the metadata of an existing skill with given id.
-
-        404 error will be raised if one or more of the provided fields is missing in the existing metadata.
-
-
-        **PERMISSION**
-
-        Permission `DELETE_SKILL_METADATA` is required to perform this operation.
-      parameters:
-        - name: "skillId"
-          in: "path"
-          description: "The skill id"
-          required: true
-          type: "string"
-          format: "UUID"
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/SkillMetadataDeleteRequestBody"
-      responses:
-        "200":
-          description: "OK - the request was successful"
-          schema:
-            $ref: "#/definitions/Skill"
-        "400":
-          $ref: "#/definitions/BadRequest"
-        "401":
-          $ref: "#/definitions/Unauthorized"
-        "403":
-          $ref: "#/definitions/Forbidden"
-        "404":
-          $ref: "#/definitions/NotFound"
-        "500":
-          $ref: "#/definitions/ServerError"
-      security:
-        - Bearer: []
+      x-swagger-router-controller: "Skills"
 
   /taxonomies:
     get:
@@ -674,16 +589,16 @@ paths:
       tags:
         - "Taxonomies"
       description: >
-        Update an existing taxonomy with given id.
+        Partically update an existing taxonomy with given id.
 
 
         **PERMISSION**
 
         1. permission `UPDATE_TAXONOMY` is required to perform this operation
 
-        2. permission `ADD_TAXONOMY_METADATA` is required if any metadata field is provided.
+        2. permission `ADD_TAXONOMY_METADATA` is required if any new metadata field is provided.
 
-        3. permission `DELETE_TAXONOMY_METADATA` is required if there is any existing metadata field in the taxonomy.
+        3. permission `UPDATE_TAXONOMY_METADATA` is required if any metadata field provided already exist in the taxonomy.
       operationId: "skillstaxonomiestaxonomyIdPATCH"
       parameters:
         - name: "taxonomyId"
@@ -717,21 +632,21 @@ paths:
       security:
         - Bearer: []
       x-swagger-router-controller: "Taxonomy"
-  /taxonomies/{taxonomyId}/metadata:
     put:
       tags:
-        - "Taxonomy Metadata"
+        - "Taxonomies"
       description: >
-        Fully update the metadata of an existing taxonomy with given id.
-
-        Used to entirely overwrite existing metadata.
+        Fully update an existing taxonomy with given id.
 
 
         **PERMISSION**
 
-        1. permission `ADD_TAXONOMY_METADATA` is required if any metadata field is provided.
+        1. permission `UPDATE_TAXONOMY` is required to perform this operation
 
-        2. permission `DELETE_TAXONOMY_METADATA` is required if there is any existing metadata field in the taxonomy.
+        2. permission `ADD_TAXONOMY_METADATA` is required if any metadata field is provided.
+
+        3. permission `DELETE_TAXONOMY_METADATA` is required if there is any existing metadata field in the taxonomy.
+      operationId: "skillstaxonomiestaxonomyIdPUT"
       parameters:
         - name: "taxonomyId"
           in: "path"
@@ -743,7 +658,7 @@ paths:
           name: "body"
           required: true
           schema:
-            $ref: "#/definitions/TaxonomyMetadataUpdateRequestBody"
+            $ref: "#/definitions/TaxonomyRequestBody"
       responses:
         "200":
           description: "OK - the request was successful"
@@ -757,94 +672,13 @@ paths:
           $ref: "#/definitions/Forbidden"
         "404":
           $ref: "#/definitions/NotFound"
+        "409":
+          $ref: "#/definitions/Conflict"
         "500":
           $ref: "#/definitions/ServerError"
       security:
         - Bearer: []
-    patch:
-      tags:
-        - "Taxonomy Metadata"
-      description: >
-        Partically update the metadata of an existing taxonomy with given id.
-
-        Used to update existing fields in metadata and to add new fields to metadata.
-
-
-        **PERMISSION**
-
-        1. permission `ADD_TAXONOMY_METADATA` is required if any new metadata field is provided.
-
-        2. permission `UPDATE_TAXONOMY_METADATA` is required if any metadata field provided already exist in the taxonomy.
-      parameters:
-        - name: "taxonomyId"
-          in: "path"
-          description: "The taxonomy id"
-          required: true
-          type: "string"
-          format: "UUID"
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/TaxonomyMetadataUpdateRequestBody"
-      responses:
-        "200":
-          description: "OK - the request was successful"
-          schema:
-            $ref: "#/definitions/Taxonomy"
-        "400":
-          $ref: "#/definitions/BadRequest"
-        "401":
-          $ref: "#/definitions/Unauthorized"
-        "403":
-          $ref: "#/definitions/Forbidden"
-        "404":
-          $ref: "#/definitions/NotFound"
-        "500":
-          $ref: "#/definitions/ServerError"
-      security:
-        - Bearer: []
-    delete:
-      tags:
-        - "Taxonomy Metadata"
-      description: >
-        Remove fields from the metadata of an existing taxonomy with given id.
-
-        404 error will be raised if one or more of the provided fields is missing in the existing metadata.
-
-
-        **PERMISSION**
-
-        Permission `DELETE_TAXONOMY_METADATA` is required to perform this operation.
-      parameters:
-        - name: "taxonomyId"
-          in: "path"
-          description: "The taxonomy id"
-          required: true
-          type: "string"
-          format: "UUID"
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/TaxonomyMetadataDeleteRequestBody"
-      responses:
-        "200":
-          description: "OK - the request was successful"
-          schema:
-            $ref: "#/definitions/Taxonomy"
-        "400":
-          $ref: "#/definitions/BadRequest"
-        "401":
-          $ref: "#/definitions/Unauthorized"
-        "403":
-          $ref: "#/definitions/Forbidden"
-        "404":
-          $ref: "#/definitions/NotFound"
-        "500":
-          $ref: "#/definitions/ServerError"
-      security:
-        - Bearer: []
+      x-swagger-router-controller: "Taxonomy"
 
 securityDefinitions:
   Bearer:
@@ -954,26 +788,6 @@ definitions:
       metadata:
         challengeProminence: "challengeProminence"
         memberProminence: "memberProminence"
-  SkillMetadataUpdateRequestBody:
-    type: "object"
-    description: "The metadata for a skill. Can contain arbitrary fields"
-    properties:
-      challengeProminence:
-        type: "string"
-        description: "The challenge prominence ranging from [0, 1]"
-      memberProminence:
-        type: "string"
-        description: "The member prominence ranging from [0, 1]"
-    example:
-      verions: "1.0.0"
-      random_field: "random_value"
-  SkillMetadataDeleteRequestBody:
-    type: "array"
-    description: "The list of fields to be removed from the metadata for a skill."
-    items:
-      type: string
-      description: "field name"
-    example: ["version", "random_field"]
   Taxonomy:
     allOf:
       - type: "object"
@@ -1015,19 +829,8 @@ definitions:
         description: "The metadata of the taxonomy."
     example:
       name: "name"
-  TaxonomyMetadataUpdateRequestBody:
-    type: "object"
-    description: "The metadata for a taxonomy. Can contain arbitrary fields"
-    example:
-      verions: "1.0.0"
-      random_field: "random_value"
-  TaxonomyMetadataDeleteRequestBody:
-    type: "array"
-    description: "The list of fields to be removed from the metadata for a taxonomy."
-    items:
-      type: string
-      description: "field name"
-    example: ["version", "random_field"]
+      metadata:
+        random_field_name_01: random_value_01
   Unauthorized:
     type: "object"
     properties:
