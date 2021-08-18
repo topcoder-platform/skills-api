@@ -40,6 +40,20 @@ const M2M_SCOPES = {
   PROJECTS: {
     ALL: 'all:projects',
     WRITE: 'write:projects'
+  },
+  SKILLS: {
+    ALL: 'all:skill',
+    CREATE: 'create:skill',
+    READ: 'read:skill',
+    UPDATE: 'update:skill',
+    DELETE: 'delete:skill'
+  },
+  TAXONOMIES: {
+    ALL: 'all:taxonomy',
+    CREATE: 'create:taxonomy',
+    READ: 'read:taxonomy',
+    UPDATE: 'update:taxonomy',
+    DELETE: 'delete:taxonomy'
   }
 }
 

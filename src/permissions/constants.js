@@ -72,7 +72,7 @@ const PERMISSION = {
       group: 'Skill'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.SKILLS.CREATE, M2M_SCOPES.SKILLS.ALL]
   },
 
   UPDATE_SKILL: {
@@ -81,7 +81,7 @@ const PERMISSION = {
       group: 'Skill'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.SKILLS.UPDATE, M2M_SCOPES.SKILLS.ALL]
   },
 
   DELETE_SKILL: {
@@ -90,7 +90,7 @@ const PERMISSION = {
       group: 'Skill'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.SKILLS.DELETE, M2M_SCOPES.SKILLS.ALL]
   },
 
   /*
@@ -103,7 +103,7 @@ const PERMISSION = {
       description: 'Add metadata fields in a skill'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.SKILLS.CREATE, M2M_SCOPES.SKILLS.ALL]
   },
 
   UPDATE_SKILL_METADATA: {
@@ -113,7 +113,7 @@ const PERMISSION = {
       description: 'Update Metadata fields from a skill'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.SKILLS.UPDATE, M2M_SCOPES.SKILLS.ALL]
   },
 
   DELETE_SKILL_METADATA: {
@@ -123,7 +123,7 @@ const PERMISSION = {
       description: 'Delete Metadata fields from a skill'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.SKILLS.DELETE, M2M_SCOPES.SKILLS.ALL]
   },
 
   /*
@@ -135,7 +135,7 @@ const PERMISSION = {
       group: 'Taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.TAXONOMIES.CREATE, M2M_SCOPES.TAXONOMIES.ALL]
   },
 
   UPDATE_TAXONOMY: {
@@ -144,7 +144,7 @@ const PERMISSION = {
       group: 'Taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.TAXONOMIES.UPDATE, M2M_SCOPES.TAXONOMIES.ALL]
   },
 
   DELETE_TAXONOMY: {
@@ -153,7 +153,7 @@ const PERMISSION = {
       group: 'Taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.TAXONOMIES.DELETE, M2M_SCOPES.TAXONOMIES.ALL]
   },
 
   /*
@@ -166,7 +166,7 @@ const PERMISSION = {
       description: 'Add metadata fields in a taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.TAXONOMIES.CREATE, M2M_SCOPES.TAXONOMIES.ALL]
   },
 
   UPDATE_TAXONOMY_METADATA: {
@@ -176,7 +176,7 @@ const PERMISSION = {
       description: 'Update Metadata fields from a taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.TAXONOMIES.UPDATE, M2M_SCOPES.TAXONOMIES.ALL]
   },
 
   DELETE_TAXONOMY_METADATA: {
@@ -186,7 +186,7 @@ const PERMISSION = {
       description: 'Delete Metadata fields from a taxonomy'
     },
     topcoderRoles: TOPCODER_ROLES_MANAGERS_AND_ADMINS,
-    scopes: SCOPES_PROJECTS_WRITE
+    scopes: [M2M_SCOPES.TAXONOMIES.DELETE, M2M_SCOPES.TAXONOMIES.ALL]
   }
 }
 
