@@ -40,10 +40,37 @@ const M2M_SCOPES = {
   PROJECTS: {
     ALL: 'all:projects',
     WRITE: 'write:projects'
+  },
+  SKILLS: {
+    ALL: 'all:skill',
+    CREATE: 'create:skill',
+    READ: 'read:skill',
+    UPDATE: 'update:skill',
+    DELETE: 'delete:skill'
+  },
+  TAXONOMIES: {
+    ALL: 'all:taxonomy',
+    CREATE: 'create:taxonomy',
+    READ: 'read:taxonomy',
+    UPDATE: 'update:taxonomy',
+    DELETE: 'delete:taxonomy'
   }
+}
+
+const SequelizeCLSNamespace = 'skills-api'
+
+const API_ACTION = {
+  SkillCreate: 'skill.create',
+  SkillUpdate: 'skill.update',
+  SkillDelete: 'skill.delete',
+  TaxonomyCreate: 'taxonomy.create',
+  TaxonomyUpdate: 'taxonomy.update',
+  TaxonomyDelete: 'taxonomy.delete'
 }
 
 module.exports = {
   MANAGER_ROLES,
-  M2M_SCOPES
+  M2M_SCOPES,
+  SequelizeCLSNamespace,
+  API_ACTION
 }

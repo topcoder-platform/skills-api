@@ -30,6 +30,11 @@ module.exports = {
       auth: 'jwt',
       permission: 'skill.edit'
     },
+    put: {
+      method: Controller.fullyUpdate,
+      auth: 'jwt',
+      permission: 'skill.edit'
+    },
     delete: {
       method: Controller.remove,
       auth: 'jwt',

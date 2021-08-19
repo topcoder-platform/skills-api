@@ -21,32 +21,49 @@
 
 Configuration for the application is at `config/default.js` and `config/production.js`. The following parameters can be set in config files or in env variables:
 
-- LOG_LEVEL: the log level
-- PORT: the server port
-- AUTH_SECRET: TC Authentication secret
-- VALID_ISSUERS: valid issuers for TC authentication
-- PAGE_SIZE: the default pagination limit
-- MAX_PAGE_SIZE: the maximum pagination size
-- API_VERSION: the API version
-- DB_NAME: the database name
-- DB_USERNAME: the database username
-- DB_PASSWORD: the database password
-- DB_HOST: the database host
-- DB_PORT: the database port
-- ES_HOST: Elasticsearch host
-- ES_REFRESH: Should elastic search refresh. Default is 'true'. Values can be 'true', 'wait_for', 'false'
-- ELASTICCLOUD_ID: The elastic cloud id, if your elasticsearch instance is hosted on elastic cloud. DO NOT provide a value for ES_HOST if you are using this
-- ELASTICCLOUD_USERNAME: The elastic cloud username for basic authentication. Provide this only if your elasticsearch instance is hosted on elastic cloud
-- ELASTICCLOUD_PASSWORD: The elastic cloud password for basic authentication. Provide this only if your elasticsearch instance is hosted on elastic cloud
-- ES.DOCUMENTS: Elasticsearch index, type and id mapping for resources.
-- SKILL_INDEX: The Elastic search index for skill. Default is `skill`
-- SKILL_ENRICH_POLICYNAME: The enrich policy for skill. Default is `skill-policy`
-- TAXONOMY_INDEX: The Elastic search index for taxonomy. Default is `taxonomy`
-- TAXONOMY_PIPELINE_ID: The pipeline id for enrichment with taxonomy. Default is `taxonomy-pipeline`
-- TAXONOMY_ENRICH_POLICYNAME: The enrich policy for taxonomy. Default is `taxonomy-policy`
-- MAX_BATCH_SIZE: Restrict number of records in memory during bulk insert (Used by the db to es migration script)
-- MAX_BULK_SIZE: The Bulk Indexing Maximum Limits. Default is `100` (Used by the db to es migration script)
+- `LOG_LEVEL`: the log level
+- `PORT`: the server port
+- `AUTH_SECRET`: TC Authentication secret
+- `VALID_ISSUERS`: valid issuers for TC authentication
+- `PAGE_SIZE`: the default pagination limit
+- `MAX_PAGE_SIZE`: the maximum pagination size
+- `API_VERSION`: the API version
+- `DB_NAME`: the database name
+- `DB_USERNAME`: the database username
+- `DB_PASSWORD`: the database password
+- `DB_HOST`: the database host
+- `DB_PORT`: the database port
+- `ES_HOST`: Elasticsearch host
+- `ES_REFRESH`: Should elastic search refresh. Default is 'true'. Values can be 'true', 'wait_for', 'false'
+- `ELASTICCLOUD_ID`: The elastic cloud id, if your elasticsearch instance is hosted on elastic cloud. DO NOT provide a value for ES_HOST if you are using this
+- `ELASTICCLOUD_USERNAME`: The elastic cloud username for basic authentication. Provide this only if your elasticsearch instance is hosted on elastic cloud
+- `ELASTICCLOUD_PASSWORD`: The elastic cloud password for basic authentication. Provide this only if your elasticsearch instance is hosted on elastic cloud
+- `ES`.DOCUMENTS: Elasticsearch index, type and id mapping for resources.
+- `SKILL_INDEX`: The Elastic search index for skill. Default is `skill`
+- `TAXONOMY_INDEX`: The Elastic search index for taxonomy. Default is `taxonomy`
+- `MAX_BATCH_SIZE`: Restrict number of records in memory during bulk insert (Used by the db to es migration script)
+- `MAX_BULK_SIZE`: The Bulk Indexing Maximum Limits. Default is `100` (Used by the db to es migration script)
 
+- `AUTH0_URL`: Auth0 URL, used to get TC M2M token
+- `AUTH0_AUDIENCE`: Auth0 audience, used to get TC M2M token
+- `TOKEN_CACHE_TIME`: Auth0 token cache time, used to get TC M2M token
+- `AUTH0_CLIENT_ID`: Auth0 client id, used to get TC M2M token
+- `AUTH0_CLIENT_SECRET`: Auth0 client secret, used to get TC M2M token
+- `AUTH0_PROXY_SERVER_URL`: Proxy Auth0 URL, used to get TC M2M token
+
+- `BUSAPI_URL`: Topcoder Bus API URL
+- `KAFKA_ERROR_TOPIC`: The error topic at which bus api will publish any errors
+- `KAFKA_MESSAGE_ORIGINATOR`: The originator value for the kafka messages
+- `SKILLS_ERROR_TOPIC`: Kafka topic for report operation error
+
+**NOTE** AUTH0 related configuration normally is shared on challenge forum.
+
+## DB and Elasticsearch In Docker
+- Navigate to the directory `docker-pgsql-es` folder. Rename `sample.env` to `.env` and change any values if required.
+- Run `docker-compose up -d` to have docker instances of pgsql and elasticsearch to use with the api
+
+**NOTE** To completely restart the services, run `docker-compose down --volumes` and then `docker-compose up`.
+Notice the `--volumes` argument is passed to the `docker-compose down` command to remove the volume that stores DB data. Without the `--volumes` argument the DB data will be persistent after the services are put down.
 
 ## Local deployment
 
@@ -58,17 +75,16 @@ Setup your Postgresql DB and Elasticsearch instance and ensure that they are up 
 - Run the migrations - `npm run migrations up`. This will create the tables.
 - Then run `npm run insert-data` and insert mock data into the database.
 - Run `npm run migrate-db-to-es` to sync data with ES.
-- Startup server `npm run start`
+- Startup server `npm run start:dev`
 
 ## Migrations
 
 Migrations are located under the `./scripts/db/` folder. Run `npm run migrations up` and `npm run migrations down` to execute the migrations or remove the earlier ones
 
 ## Local Deployment with Docker
+Setup your Postgresql DB and Elasticsearch instance and ensure that they are up and running.
 
-- Navigate to the directory `docker-pgsql-es` folder. Rename `sample.env` to `.env` and change any values if required.
-- Run `docker-compose up -d` to have docker instances of pgsql and elasticsearch to use with the api
-
+- Configure AUTH0 related parameters via ENV variables. Note that normally you don't need to change other configuration.
 - Create database using `npm run create-db`.
 - Run the migrations - `npm run migrations up`. This will create the tables.
 - Then run `npm run insert-data` and insert mock data into the database.
@@ -102,6 +118,8 @@ Migrations are located under the `./scripts/db/` folder. Run `npm run migrations
 | `npm run delete-data`  | Delete the data from the database |
 | `npm run migrations up`  | Run up migration |
 | `npm run migrations down`  | Run down migration |
+| `npm run create-index` | Create Elasticsearch indexes. Use `-- --force` flag to skip confirmation |
+| `npm run delete-index` | Delete Elasticsearch indexes. Use `-- --force` flag to skip confirmation |
 | `npm run generate:doc:permissions` | Generate [permissions.html](docs/permissions.html) |
 | `npm run generate:doc:permissions:dev` | Generate [permissions.html](docs/permissions.html) on any changes (useful during development). |
 

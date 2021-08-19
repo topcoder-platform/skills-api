@@ -4,11 +4,13 @@
 
 const joi = require('@hapi/joi')
 const _ = require('lodash')
+const config = require('config')
 
 const errors = require('../../common/errors')
 const helper = require('../../common/helper')
 const dbHelper = require('../../common/db-helper')
 const serviceHelper = require('../../common/service-helper')
+const constants = require('../../constants')
 const { PERMISSION } = require('../../permissions/constants')
 const sequelize = require('../../models/index')
 
@@ -32,12 +34,24 @@ async function create (entity, auth) {
   const taxonomy = await dbHelper.get(Taxonomy, entity.taxonomyId)
   await dbHelper.makeSureUnique(Skill, entity, uniqueFields)
 
-  const result = await dbHelper.create(Skill, entity, auth)
-  const created = result.dataValues
-  created.taxonomyName = taxonomy.name
-  await serviceHelper.createRecordInEs(resource, created)
+  let payload
+  try {
+    return await sequelize.transaction(async () => {
+      const result = await dbHelper.create(Skill, entity, auth)
 
-  return helper.omitAuditFields(created)
+      payload = result.dataValues
+
+      const created = { ...result.dataValues, taxonomyName: taxonomy.name }
+      await serviceHelper.createRecordInEs(resource, created)
+
+      return helper.omitAuditFields(created)
+    })
+  } catch (e) {
+    if (payload) {
+      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.SkillCreate)
+    }
+    throw e
+  }
 }
 
 create.schema = {
@@ -55,46 +69,78 @@ create.schema = {
 }
 
 /**
- * patch skill by id
+ * Update skill by id. Used in functions patch and fullyUpdate.
+ *
+ * @param instance the skill instance
+ * @param updateData the data to be updated
+ * @param auth the auth object
+ * @return the updated skill
+ */
+async function update (instance, updateData, auth) {
+  let payload
+  try {
+    return await sequelize.transaction(async () => {
+      const newEntity = await instance.update({
+        ...updateData,
+        updatedBy: helper.getAuthUser(auth)
+      })
+
+      payload = newEntity.dataValues
+
+      const taxonomy = await dbHelper.get(Taxonomy, newEntity.taxonomyId)
+      const updated = { ...newEntity.dataValues, taxonomyName: taxonomy.name }
+
+      await serviceHelper.patchRecordInEs(resource, updated)
+
+      return helper.omitAuditFields(updated)
+    })
+  } catch (e) {
+    if (payload) {
+      helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.SkillUpdate)
+    }
+    throw e
+  }
+}
+
+/**
+ * Patch skill by id.
+ * If the metadata field is provided, existing metadata fields would be updated and new metadata fields would be added.
+ *
  * @param id the skill id
  * @param entity the request skill entity
  * @param auth the auth object
  * @return the updated skill
  */
 async function patch (id, entity, auth) {
-  let taxonomy
-  if (entity.taxonomyId) {
-    taxonomy = await dbHelper.get(Taxonomy, entity.taxonomyId)
-  }
-
-  await dbHelper.makeSureUnique(Skill, entity, uniqueFields)
-
+  // check if the skill exists or not
   const instance = await dbHelper.get(Skill, id)
 
+  if (entity.taxonomyId && entity.taxonomyId !== instance.taxonomyId) {
+    // check if the taxonomy exists or not
+    await dbHelper.get(Taxonomy, entity.taxonomyId)
+  }
+
+  // check if the skill has conflict or not
+  await dbHelper.makeSureUnique(Skill, entity, uniqueFields)
+
   if (entity.metadata) {
-    if (Object.keys(entity.metadata).length) {
-      // check permission for adding new metadata fields
+    const inputFields = Object.keys(entity.metadata)
+    const existingFields = Object.keys(instance.metadata)
+    const sharedFields = _.intersection(inputFields, existingFields)
+
+    if (inputFields.length > sharedFields.length) {
+      // check permission for adding new fields
       serviceHelper.hasPermission(PERMISSION.ADD_SKILL_METADATA, auth)
     }
-    if (Object.keys(instance.metadata).length) {
-      // check permission for removing existing metadata fields
-      serviceHelper.hasPermission(PERMISSION.DELETE_SKILL_METADATA, auth)
+    if (sharedFields.length) {
+      // check permission for updating fields
+      serviceHelper.hasPermission(PERMISSION.UPDATE_SKILL_METADATA, auth)
     }
   }
 
-  const newEntity = await instance.update({
-    ...entity,
-    updatedBy: helper.getAuthUser(auth)
-  })
+  const updateData = { ...instance, ...entity, metadata: { ...instance.metadata, ...entity.metadata } }
 
-  if (!taxonomy) {
-    taxonomy = await dbHelper.get(Taxonomy, newEntity.taxonomyId)
-  }
-  const updated = newEntity.dataValues
-  updated.taxonomyName = taxonomy.name
-  await serviceHelper.patchRecordInEs(resource, updated)
-
-  return helper.omitAuditFields(updated)
+  return update(instance, updateData, auth)
 }
 
 patch.schema = {
@@ -113,6 +159,56 @@ patch.schema = {
 }
 
 /**
+ * Fully update skill by id.
+ * Existing metadata fields would be entirely replace with the new ones.
+ *
+ * @param id the skill id
+ * @param entity the request skill entity
+ * @param auth the auth object
+ * @return the updated skill
+ */
+async function fullyUpdate (id, entity, auth) {
+  // check if the skill exists or not
+  const instance = await dbHelper.get(Skill, id)
+
+  if (entity.taxonomyId !== instance.taxonomyId) {
+    // check if the taxonomy exists or not
+    await dbHelper.get(Taxonomy, entity.taxonomyId)
+  }
+
+  // check if the skill has conflict or not
+  await dbHelper.makeSureUnique(Skill, entity, uniqueFields)
+
+  if (Object.keys(entity.metadata).length) {
+    // check permission for adding new metadata fields
+    serviceHelper.hasPermission(PERMISSION.ADD_SKILL_METADATA, auth)
+  }
+  if (Object.keys(instance.metadata).length) {
+    // check permission for removing existing metadata fields
+    serviceHelper.hasPermission(PERMISSION.DELETE_SKILL_METADATA, auth)
+  }
+
+  const updateData = entity
+
+  return update(instance, updateData, auth)
+}
+
+fullyUpdate.schema = {
+  id: joi.string().uuid().required(),
+  entity: joi.object().keys({
+    taxonomyId: joi.string().uuid().required(),
+    name: joi.string().required(),
+    uri: joi.string().default(null),
+    externalId: joi.string().default(null),
+    metadata: joi.object().keys({
+      challengeProminence: joi.prominence('challengeProminence'),
+      memberProminence: joi.prominence('memberProminence')
+    }).unknown(true).required()
+  }).required(),
+  auth: joi.object()
+}
+
+/**
  * get skill by id
  * @param id the skill id
  * @param params the path parameters
@@ -124,8 +220,8 @@ async function get (id, params, query = {}, fromDb = false) {
   const trueParams = _.assign(params, query)
   if (!fromDb) {
     const esResult = await serviceHelper.getRecordInEs(resource, id, trueParams)
-    await populateTaxonomyNames(esResult)
     if (esResult) {
+      await populateTaxonomyNames(esResult)
       return helper.omitAuditFields(esResult)
     }
   }
@@ -198,7 +294,7 @@ async function search (query) {
 
 search.schema = {
   query: {
-    page: joi.string().uuid(),
+    page: joi.page(),
     perPage: joi.pageSize(),
     taxonomyId: joi.string().uuid(),
     name: joi.string(),
@@ -215,8 +311,16 @@ search.schema = {
  * @return no data returned
  */
 async function remove (id, auth, params) {
-  await dbHelper.remove(Skill, id)
-  await serviceHelper.deleteRecordFromEs(id, params, resource)
+  const payload = { id }
+  try {
+    return await sequelize.transaction(async () => {
+      await dbHelper.remove(Skill, id)
+      await serviceHelper.deleteRecordFromEs(id, params, resource)
+    })
+  } catch (e) {
+    helper.publishError(config.SKILLS_ERROR_TOPIC, payload, constants.API_ACTION.SkillDelete)
+    throw e
+  }
 }
 
 remove.schema = {
@@ -229,6 +333,7 @@ module.exports = {
   create,
   search,
   patch,
+  fullyUpdate,
   get,
   remove
 }

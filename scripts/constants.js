@@ -8,35 +8,13 @@ const config = require('config')
 const topResources = {
   taxonomy: {
     index: config.get('ES.DOCUMENTS.taxonomy.index'),
-    type: config.get('ES.DOCUMENTS.taxonomy.type'),
-    enrich: {
-      policyName: config.get('ES.DOCUMENTS.taxonomy.enrichPolicyName'),
-      matchField: 'id',
-      enrichFields: ['id', 'name', 'created', 'updated', 'createdBy', 'updatedBy']
-    },
-    pipeline: {
-      id: config.get('ES.DOCUMENTS.taxonomy.pipelineId'),
-      field: 'taxonomyId',
-      targetField: 'taxonomy',
-      maxMatches: '1'
-    }
+    type: config.get('ES.DOCUMENTS.taxonomy.type')
   },
 
   skill: {
     index: config.get('ES.DOCUMENTS.skill.index'),
-    type: config.get('ES.DOCUMENTS.skill.type'),
-    enrich: {
-      policyName: config.get('ES.DOCUMENTS.skill.enrichPolicyName'),
-      matchField: 'id',
-      enrichFields: ['id', 'taxonomyId', 'name', 'externalId', 'uri', 'created', 'updated', 'createdBy', 'updatedBy', 'taxonomyName']
-    },
-    ingest: {
-      pipeline: {
-        id: config.get('ES.DOCUMENTS.taxonomy.pipelineId')
-      }
-    }
+    type: config.get('ES.DOCUMENTS.skill.type')
   }
-
 }
 
 const modelToESIndexMapping = {
@@ -44,7 +22,72 @@ const modelToESIndexMapping = {
   Skill: 'skill'
 }
 
+// The es index property mapping
+const esIndexPropertyMapping = {
+  [topResources.skill.index]: {
+    created: {
+      type: 'date'
+    },
+    createdBy: {
+      type: 'keyword'
+    },
+    externalId: {
+      type: 'keyword'
+    },
+    id: {
+      type: 'keyword'
+    },
+    metadata: {
+      type: 'object',
+      enabled: 'false'
+    },
+    name: {
+      type: 'keyword'
+    },
+    taxonomyId: {
+      type: 'keyword'
+    },
+    taxonomyName: {
+      type: 'keyword'
+    },
+    updated: {
+      type: 'date'
+    },
+    updatedBy: {
+      type: 'keyword'
+    },
+    uri: {
+      type: 'text'
+    }
+  },
+  [topResources.taxonomy.index]: {
+    created: {
+      type: 'date'
+    },
+    createdBy: {
+      type: 'keyword'
+    },
+    id: {
+      type: 'keyword'
+    },
+    metadata: {
+      type: 'object',
+      enabled: 'false'
+    },
+    name: {
+      type: 'keyword'
+    },
+    updated: {
+      type: 'date'
+    },
+    updatedBy: {
+      type: 'keyword'
+    }
+  }
+}
+
 module.exports = {
   topResources,
-  modelToESIndexMapping
+  modelToESIndexMapping,
+  esIndexPropertyMapping
 }

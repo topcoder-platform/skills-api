@@ -20,10 +20,25 @@ module.exports = {
   DB_HOST: process.env.DB_HOST || 'localhost',
   DB_PORT: process.env.DB_PORT || 5432,
 
+  AUTH0_URL: process.env.AUTH0_URL,
+  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
+  TOKEN_CACHE_TIME: process.env.TOKEN_CACHE_TIME,
+  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+  AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
+  AUTH0_PROXY_SERVER_URL: process.env.AUTH0_PROXY_SERVER_URL,
+
+  BUSAPI_URL: process.env.BUSAPI_URL || 'https://api.topcoder-dev.com/v5',
+
+  KAFKA_ERROR_TOPIC: process.env.KAFKA_ERROR_TOPIC || 'common.error.reporting',
+  KAFKA_MESSAGE_ORIGINATOR: process.env.KAFKA_MESSAGE_ORIGINATOR || 'skills-api',
+
+  SKILLS_ERROR_TOPIC: process.env.SKILLS_ERROR_TOPIC || 'skills.action.error',
+
   // ElasticSearch
   ES: {
     HOST: process.env.ES_HOST || 'http://localhost:9200',
     ES_REFRESH: process.env.ES_REFRESH || 'true',
+    ES_API_VERSION: process.env.ES_API_VERSION || "7.4",
 
     ELASTICCLOUD: {
       id: process.env.ELASTICCLOUD_ID,
@@ -35,14 +50,11 @@ module.exports = {
     DOCUMENTS: {
       skill: {
         index: process.env.SKILL_INDEX || 'skill',
-        type: '_doc',
-        enrichPolicyName: process.env.SKILL_ENRICH_POLICYNAME || 'skill-policy'
+        type: '_doc'
       },
       taxonomy: {
         index: process.env.TAXONOMY_INDEX || 'taxonomy',
-        type: '_doc',
-        pipelineId: process.env.TAXONOMY_PIPELINE_ID || 'taxonomy-pipeline',
-        enrichPolicyName: process.env.TAXONOMY_ENRICH_POLICYNAME || 'taxonomy-policy'
+        type: '_doc'
       }
     },
     MAX_BATCH_SIZE: parseInt(process.env.MAX_BATCH_SIZE, 10) || 10000,

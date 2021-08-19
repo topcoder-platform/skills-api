@@ -19,6 +19,7 @@ async function createRecordInEs (resource, entity) {
     await esHelper.insertIntoES(resource, entity)
   } catch (err) {
     logger.logFullError(err)
+    throw err
   }
 }
 
@@ -32,6 +33,7 @@ async function patchRecordInEs (resource, entity) {
     await esHelper.updateESRecord(resource, entity)
   } catch (err) {
     logger.logFullError(err)
+    throw err
   }
 }
 
@@ -46,6 +48,7 @@ async function deleteRecordFromEs (id, params, resource) {
     await esHelper.deleteESRecord(resource, id)
   } catch (err) {
     logger.logFullError(err)
+    throw err
   }
 }
 
@@ -61,9 +64,9 @@ async function getRecordInEs (resource, id, params) {
     const result = await esHelper.getFromElasticSearch(resource, id, params)
     return result
   } catch (err) {
-    // return error if enrich fails or permission fails
+    // return error if permission fails
     if (err.status && err.status === 403) {
-      throw errors.elasticSearchEnrichError(err.message)
+      throw errors.ForbiddenError(err.message)
     }
     logger.logFullError(err)
   }

@@ -25,6 +25,15 @@ function getControllerMethods (service) {
   }
 
   /**
+   * fully update entity by id
+   * @param req the http request
+   * @param res the http response
+   */
+  async function fullyUpdate (req, res) {
+    res.json(await service.fullyUpdate(req.params.id, req.body, req.authUser))
+  }
+
+  /**
    * get entity by id
    * @param req the http request
    * @param res the http response
@@ -59,7 +68,8 @@ function getControllerMethods (service) {
     search,
     remove,
     get,
-    patch
+    patch,
+    fullyUpdate
   }
 }
 

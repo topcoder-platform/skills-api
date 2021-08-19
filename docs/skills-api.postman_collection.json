@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "807bc545-d28c-4725-b88a-1bca2e734a50",
+		"_postman_id": "8d22bd52-0b64-43a5-9db3-c8516cb3e371",
 		"name": "skills-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -39,7 +39,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"taxonomy_06\",\n    \"metadata\": {}\n}"
+							"raw": "{\n    \"name\": \"taxonomy_06\",\n    \"metadata\": {\n        \"random_field_01\": \"random_value_01\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{HOST}}/taxonomies",
@@ -91,6 +91,40 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"taxonomies_update12\",\n    \"metadata\": {\n        \"version\": \"1.0.0\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}/taxonomies/{{taxonomyId}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"taxonomies",
+								"{{taxonomyId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{HOST}}/taxonomies/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"taxonomies_update\",\n    \"metadata\": {\n        \"new_metadata_field\": \"value\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{HOST}}/taxonomies/{{taxonomyId}}",
@@ -201,116 +235,6 @@
 			]
 		},
 		{
-			"name": "taxonomies metadata",
-			"item": [
-				{
-					"name": "{{HOST}}/taxonomies/:id",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"version\": \"1.0.1\",\n    \"isLongTermSupport\": true\n}"
-						},
-						"url": {
-							"raw": "{{HOST}}/taxonomies/{{taxonomyId}}/metadata",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"taxonomies",
-								"{{taxonomyId}}",
-								"metadata"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "{{HOST}}/taxonomies/:id",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"version\": \"1.0.1\",\n    \"endSupportDate\": \"2031-01-01\"\n}"
-						},
-						"url": {
-							"raw": "{{HOST}}/taxonomies/{{taxonomyId}}/metadata",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"taxonomies",
-								"{{taxonomyId}}",
-								"metadata"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "{{HOST}}/taxonomies/:id",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[\n    \"isLongTermSupport\",\n    \"endSupportDate\"\n]"
-						},
-						"url": {
-							"raw": "{{HOST}}/taxonomies/{{taxonomyId}}/metadata",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"taxonomies",
-								"{{taxonomyId}}",
-								"metadata"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "skills",
 			"item": [
 				{
@@ -395,7 +319,41 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\":\"skill_name_update23\"\n}"
+							"raw": "{\n    \"name\": \"skill_name_update23\",\n    \"metadata\": {\n        \"memberProminence\": \"0.75\",\n        \"version\": \"0.1.0\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}/skills/{{skillId}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"skills",
+								"{{skillId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{HOST}}/skills/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"taxonomyId\":\"{{taxonomyId}}\",\n\t\"name\":\"jump6\",\n    \"metadata\": {\n        \"challengeProminence\": \"0.2\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{HOST}}/skills/{{skillId}}",
@@ -505,116 +463,6 @@
 							"path": [
 								"skills",
 								"{{skillId}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "skills metadata",
-			"item": [
-				{
-					"name": "{{HOST}}/skills/:id",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"version\": \"1.0.1\",\n    \"isLongTermSupport\": true\n}"
-						},
-						"url": {
-							"raw": "{{HOST}}/skills/{{skillId}}/metadata",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"skills",
-								"{{skillId}}",
-								"metadata"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "{{HOST}}/skills/:id",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"version\": \"1.0.1\",\n    \"endSupportDate\": \"2031-01-01\"\n}"
-						},
-						"url": {
-							"raw": "{{HOST}}/skills/{{skillId}}/metadata",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"skills",
-								"{{skillId}}",
-								"metadata"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "{{HOST}}/skills/:id",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[\n    \"isLongTermSupport\",\n    \"endSupportDate\"\n]"
-						},
-						"url": {
-							"raw": "{{HOST}}/skills/{{skillId}}/metadata",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"skills",
-								"{{skillId}}",
-								"metadata"
 							]
 						}
 					},

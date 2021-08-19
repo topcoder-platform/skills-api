@@ -2,7 +2,6 @@
  * Controller for health check endpoint
  */
 const models = require('../../models')
-const config = require('config')
 const logger = require('../../common/logger')
 
 // the topcoder-healthcheck-dropin library returns checksRun count,

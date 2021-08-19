@@ -30,6 +30,11 @@ module.exports = {
       auth: 'jwt',
       permission: 'taxonomy.edit'
     },
+    put: {
+      method: Controller.fullyUpdate,
+      auth: 'jwt',
+      permission: 'taxonomy.edit'
+    },
     delete: {
       method: Controller.remove,
       auth: 'jwt',
