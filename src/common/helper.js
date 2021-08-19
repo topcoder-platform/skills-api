@@ -73,6 +73,22 @@ function injectSearchMeta (req, res, result) {
 }
 
 /**
+ * Set the Last-Modified response header from result.
+ * @param {Object} req the HTTP request
+ * @param {Object} res the HTTP response
+ * @param {Array|Object} result the operation result
+ */
+function setLastModifiedHeader (req, res, result) {
+  if (!Array.isArray(result)) {
+    res.set('Last-Modified', new Date(_.get(result, 'metadata.updated')))
+    return
+  }
+  if (result.length) {
+    res.set('Last-Modified', new Date(Math.max(...result.map(entity => new Date(_.get(entity, 'metadata.updated'))))))
+  }
+}
+
+/**
  * Removes the audit fields created, createdBy, updatedBy from the given entity or an array of entities
  * and moves the updated to metadata
  * @param entity a single entity or an array of entities
@@ -117,6 +133,7 @@ async function publishError (topic, payload, action) {
 module.exports = {
   getAuthUser,
   injectSearchMeta,
+  setLastModifiedHeader,
   getControllerMethods,
   omitAuditFields,
   publishError

@@ -121,7 +121,7 @@ async function patch (id, entity, auth) {
   }
 
   // check if the skill has conflict or not
-  await dbHelper.makeSureUnique(Skill, entity, uniqueFields)
+  await dbHelper.makeSureUnique(Skill, { ...entity, id }, uniqueFields)
 
   if (entity.metadata) {
     const inputFields = Object.keys(entity.metadata)
@@ -177,7 +177,7 @@ async function fullyUpdate (id, entity, auth) {
   }
 
   // check if the skill has conflict or not
-  await dbHelper.makeSureUnique(Skill, entity, uniqueFields)
+  await dbHelper.makeSureUnique(Skill, { ...entity, id }, uniqueFields)
 
   if (Object.keys(entity.metadata).length) {
     // check permission for adding new metadata fields
