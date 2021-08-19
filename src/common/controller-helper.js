@@ -4,7 +4,7 @@
  * @return {{patch: patch, search: search, get: get, create: create, update: update, remove: remove}} the common controller methods
  */
 function getControllerMethods (service) {
-  const { injectSearchMeta } = require('./helper')
+  const { injectSearchMeta, setLastModifiedHeader } = require('./helper')
 
   /**
    * create entity by request data
@@ -39,7 +39,9 @@ function getControllerMethods (service) {
    * @param res the http response
    */
   async function get (req, res) {
-    res.json(await service.get(req.params.id, req.query))
+    const result = await service.get(req.params.id, req.query)
+    setLastModifiedHeader(req, res, result)
+    res.json(result)
   }
 
   /**
@@ -50,6 +52,7 @@ function getControllerMethods (service) {
   async function search (req, res) {
     const result = await service.search(req.query)
     injectSearchMeta(req, res, result)
+    setLastModifiedHeader(req, res, result.result)
     res.send(result.result)
   }
 
