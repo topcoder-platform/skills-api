@@ -1,0 +1,14 @@
+[
+  {
+    "params": "page=-1&perPage=10",
+    "httpCode": 400
+  },
+  {
+    "params": "page=1&perPage=-10",
+    "httpCode": 400
+  },
+  {
+    "params": "aaa=abc",
+    "httpCode": 400
+  }
+]

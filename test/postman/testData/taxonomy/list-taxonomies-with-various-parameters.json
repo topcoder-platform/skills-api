@@ -1,0 +1,18 @@
+[
+  {
+    "params": "name=POSTMANE2E-taxonomy_01_by_admin",
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata"
+    ]
+  },
+  {
+    "params": "page=1&perPage=10",
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata"
+    ]
+  }
+]

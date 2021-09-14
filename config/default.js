@@ -38,7 +38,7 @@ module.exports = {
   ES: {
     HOST: process.env.ES_HOST || 'http://localhost:9200',
     ES_REFRESH: process.env.ES_REFRESH || 'true',
-    ES_API_VERSION: process.env.ES_API_VERSION || "7.4",
+    ES_API_VERSION: process.env.ES_API_VERSION || '7.4',
 
     ELASTICCLOUD: {
       id: process.env.ELASTICCLOUD_ID,
@@ -59,5 +59,7 @@ module.exports = {
     },
     MAX_BATCH_SIZE: parseInt(process.env.MAX_BATCH_SIZE, 10) || 10000,
     MAX_BULK_SIZE: parseInt(process.env.MAX_BULK_SIZE, 10) || 100
-  }
+  },
+
+  AUTOMATED_TESTING_NAME_PREFIX: process.env.AUTOMATED_TESTING_NAME_PREFIX || 'POSTMANE2E-'
 }

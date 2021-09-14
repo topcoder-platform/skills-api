@@ -1,0 +1,17 @@
+[
+  {
+    "params": "page=-1&perPage=10",
+    "httpCode": 400,
+    "message": "\"query.page\" must be larger than or equal to 1"
+  },
+  {
+    "params": "page=1&perPage=-10",
+    "httpCode": 400,
+    "message": "\"query.perPage\" must be larger than or equal to 1"
+  },
+  {
+    "params": "aaa=abc",
+    "httpCode": 400,
+    "message": "\"query.aaa\" is not allowed"
+  }
+]

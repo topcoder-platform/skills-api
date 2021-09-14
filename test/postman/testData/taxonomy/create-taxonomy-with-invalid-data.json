@@ -1,0 +1,34 @@
+[
+  {
+    "input": {
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.name\" is required"
+  },
+  {
+    "input": {
+      "name": "",
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.name\" is not allowed to be empty"
+  },
+  {
+    "input": {
+      "name": "POSTMANE2E-name-valid",
+      "metadata": 123
+    },
+    "httpCode": 400,
+    "message": "\"entity.metadata\" must be of type object"
+  },
+  {
+    "input": {
+      "name": "POSTMANE2E-name-valid",
+      "metadata": {},
+      "abc": 123
+    },
+    "httpCode": 400,
+    "message": "\"entity.abc\" is not allowed"
+  }
+]

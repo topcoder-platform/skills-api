@@ -1,0 +1,85 @@
+[
+  {
+    "id": "{{SKILL_4}}",
+    "input": {
+      "name": "POSTMANE2E-skill_01_by_m2m updated"
+    },
+    "expected": {
+      "name": "POSTMANE2E-skill_01_by_m2m updated"
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{SKILL_4}}",
+    "input": {
+      "metadata": {
+        "field updated": "field_value updated"
+      }
+    },
+    "expected": {
+      "metadata": {
+        "field updated": "field_value updated"
+      }
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{SKILL_4}}",
+    "input": {
+      "externalId": "externalId_updated"
+    },
+    "expected": {
+      "externalId": "externalId_updated"
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{SKILL_4}}",
+    "input": {
+      "uri": "uri_updated"
+    },
+    "expected": {
+      "uri": "uri_updated"
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{SKILL_4}}",
+    "input": {
+      "name": "POSTMANE2E-skill_01_by_m2m updated 2",
+      "metadata": {
+        "field updated": "field_value updated 2"
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-skill_01_by_m2m updated 2",
+      "metadata": {
+        "field updated": "field_value updated 2"
+      }
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{SKILL_4}}",
+    "input": {
+      "name": "POSTMANE2E-skill_01_by_m2m updated 3",
+      "taxonomyId":"{{TAXONOMY_3}}",
+      "uri":"http://www.googleupdated.com",
+      "externalId":"externalId_01 updated",
+      "metadata": {
+        "challengeProminence": "0.1",
+        "memberProminence": "0.3"
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-skill_01_by_m2m updated 3",
+      "uri":"http://www.googleupdated.com",
+      "externalId":"externalId_01 updated",
+      "metadata": {
+        "challengeProminence": "0.1",
+        "memberProminence": "0.3"
+      }
+    },
+    "httpCode": 200
+  }
+]

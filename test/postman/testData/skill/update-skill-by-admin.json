@@ -1,0 +1,38 @@
+[
+  {
+    "id": "{{SKILL_2}}",
+    "input": {
+      "name": "POSTMANE2E-skill_02_by_admin updated",
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "metadata": {
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-skill_02_by_admin updated",
+      "metadata": {
+      }
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{SKILL_2}}",
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-skill_02_by_admin updated 2",
+      "uri":"http://updated.google.com",
+      "externalId":"updated externalId_02",
+      "metadata": {
+        "field updated": "field_value updated 2"
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-skill_02_by_admin updated 2",
+      "uri":"http://updated.google.com",
+      "externalId":"updated externalId_02",
+      "metadata": {
+        "field updated": "field_value updated 2"
+      }
+    },
+    "httpCode": 200
+  }
+]

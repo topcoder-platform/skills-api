@@ -1,0 +1,74 @@
+[
+  {
+    "params": "name=POSTMANE2E-skill_01_by_admin",
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata",
+      "externalId",
+      "uri",
+      "taxonomyId",
+      "taxonomyName"
+    ]
+  },
+  {
+    "params": "page=1&perPage=10",
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata",
+      "externalId",
+      "uri",
+      "taxonomyId",
+      "taxonomyName"
+    ]
+  },
+  {
+    "params": "taxonomyId={{TAXONOMY_1}}",
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata",
+      "externalId",
+      "uri",
+      "taxonomyId",
+      "taxonomyName"
+    ]
+  },
+  {
+    "params": "externalId=externalId_01",
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata",
+      "externalId",
+      "uri",
+      "taxonomyId",
+      "taxonomyName"
+    ]
+  },
+  {
+    "params": "orderBy=name",
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata",
+      "externalId",
+      "uri",
+      "taxonomyId",
+      "taxonomyName"
+    ]
+  },
+  {
+    "params": "name=POSTMANE2E-skill_01_by_admin&taxonomyId={{TAXONOMY_1}}&externalId=externalId_01&orderBy=name&page=1&perPage=10",
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata",
+      "externalId",
+      "uri",
+      "taxonomyId",
+      "taxonomyName"
+    ]
+  }
+]
