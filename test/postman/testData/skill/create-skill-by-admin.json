@@ -1,0 +1,59 @@
+[
+  {
+    "input": {
+      "name": "POSTMANE2E-skill_01_by_admin",
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "uri":"http://www.google.com",
+      "externalId":"externalId_01",
+      "metadata": {
+        "challengeProminence": "0.2",
+        "memberProminence": "0.5"
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-skill_01_by_admin",
+      "uri":"http://www.google.com",
+      "externalId":"externalId_01",
+      "metadata": {
+        "challengeProminence": "0.2",
+        "memberProminence": "0.5"
+      }
+    },
+    "idLabel": "SKILL_1",
+    "httpCode": 200
+  },
+  {
+    "input": {
+      "name": "POSTMANE2E-skill_02_by_admin",
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "uri":"http://www.google.com",
+      "externalId":"externalId_01",
+      "metadata": {
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-skill_02_by_admin",
+      "uri":"http://www.google.com",
+      "externalId":"externalId_01",
+      "metadata": {
+      }
+    },
+    "idLabel": "SKILL_2",
+    "httpCode": 200
+  },
+  {
+    "input": {
+      "name": "POSTMANE2E-skill_03_by_admin",
+      "taxonomyId":"{{TAXONOMY_2}}",
+      "metadata": {
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-skill_03_by_admin",
+      "metadata": {
+      }
+    },
+    "idLabel": "SKILL_3",
+    "httpCode": 200
+  }
+]

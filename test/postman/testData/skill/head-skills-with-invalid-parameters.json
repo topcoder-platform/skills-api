@@ -1,0 +1,38 @@
+[
+  {
+    "params": "page=-1&perPage=10",
+    "httpCode": 400
+  },
+  {
+    "params": "page=1&perPage=-10",
+    "httpCode": 400
+  },
+  {
+    "params": "aaa=abc",
+    "httpCode": 400
+  },
+  {
+    "params": "orderBy=invalid",
+    "httpCode": 500
+  },
+  {
+    "params": "taxonomyId=invalid",
+    "httpCode": 400
+  },
+  {
+    "params": "taxonomyId=",
+    "httpCode": 400
+  },
+  {
+    "params": "orderBy=",
+    "httpCode": 400
+  },
+  {
+    "params": "externalId=",
+    "httpCode": 400
+  },
+  {
+    "params": "name=",
+    "httpCode": 400
+  }
+]

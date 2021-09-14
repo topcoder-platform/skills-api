@@ -1,0 +1,37 @@
+[
+  {
+    "id": "{{TAXONOMY_1}}",
+    "input": {
+      "name": ""
+    },
+    "httpCode": 400,
+    "message": "\"entity.name\" is not allowed to be empty"
+  },
+  {
+    "id": "{{TAXONOMY_1}}",
+    "input": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin updated",
+      "metadata": 123
+    },
+    "httpCode": 400,
+    "message": "\"entity.metadata\" must be of type object"
+  },
+  {
+    "id": "{{TAXONOMY_1}}",
+    "input": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin updated",
+      "abc": 123
+    },
+    "httpCode": 400,
+    "message": "\"entity.abc\" is not allowed"
+  },
+  {
+    "id": "6ffcbc99-7891-48c7-8c0c-84940f405e9b",
+    "input": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin updated",
+      "metadata": {}
+    },
+    "httpCode": 404,
+    "message": "cannot find Taxonomy where id = 6ffcbc99-7891-48c7-8c0c-84940f405e9b"
+  }
+]

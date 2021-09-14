@@ -1,0 +1,138 @@
+[
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.name\" is required"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "",
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.name\" is not allowed to be empty"
+  },
+  {
+    "input": {
+      "name": "POSTMANE2E-name-valid",
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.taxonomyId\" is required"
+  },
+  {
+    "input": {
+      "taxonomyId":"",
+      "name": "POSTMANE2E-name-valid",
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.taxonomyId\" is not allowed to be empty"
+  },
+  {
+    "input": {
+      "taxonomyId":"aaa",
+      "name": "POSTMANE2E-name-valid",
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.taxonomyId\" must be a valid GUID"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-name-valid",
+      "metadata": 123
+    },
+    "httpCode": 400,
+    "message": "\"entity.metadata\" must be of type object"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-name-valid",
+      "metadata": {},
+      "abc": 123
+    },
+    "httpCode": 400,
+    "message": "\"entity.abc\" is not allowed"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-name-valid",
+      "metadata": {
+        "challengeProminence": "777",
+        "memberProminence": "0.5"
+      }
+    },
+    "httpCode": 400,
+    "message": "challengeProminence must be a string with value in the range [0, 1]"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-name-valid",
+      "metadata": {
+        "challengeProminence": "0.5",
+        "memberProminence": "777"
+      }
+    },
+    "httpCode": 400,
+    "message": "memberProminence must be a string with value in the range [0, 1]"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-name-valid",
+      "uri":123,
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.uri\" must be a string"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-name-valid",
+      "uri": "",
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.uri\" is not allowed to be empty"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-name-valid",
+      "externalId": 123,
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.externalId\" must be a string"
+  },
+  {
+    "input": {
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "name": "POSTMANE2E-name-valid",
+      "externalId": "",
+      "metadata": {}
+    },
+    "httpCode": 400,
+    "message": "\"entity.externalId\" is not allowed to be empty"
+  },
+  {
+    "input": {
+      "name": "POSTMANE2E-skill_03_by_admin",
+      "taxonomyId":"{{TAXONOMY_2}}",
+      "metadata": {
+      }
+    },
+    "httpCode": 409,
+    "message": "Skill already exists with taxonomyId"
+  }
+]

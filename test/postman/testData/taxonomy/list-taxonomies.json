@@ -1,0 +1,9 @@
+[
+  {
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata"
+    ]
+  }
+]

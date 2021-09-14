@@ -1,0 +1,93 @@
+[
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "name": ""
+    },
+    "httpCode": 400,
+    "message": "\"entity.name\" is not allowed to be empty"
+  },
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "metadata": 123
+    },
+    "httpCode": 400,
+    "message": "\"entity.metadata\" must be of type object"
+  },
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "abc": 123
+    },
+    "httpCode": 400,
+    "message": "\"entity.abc\" is not allowed"
+  },
+  {
+    "id": "6ffcbc99-7891-48c7-8c0c-84940f405e9b",
+    "input": {
+      "metadata": {}
+    },
+    "httpCode": 404,
+    "message": "cannot find Skill where id = 6ffcbc99-7891-48c7-8c0c-84940f405e9b"
+  },
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "taxonomyId": ""
+    },
+    "httpCode": 400,
+    "message": "\"entity.taxonomyId\" is not allowed to be empty"
+  },
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "uri": ""
+    },
+    "httpCode": 400,
+    "message": "\"entity.uri\" is not allowed to be empty"
+  },
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "externalId": ""
+    },
+    "httpCode": 400,
+    "message": "\"entity.externalId\" is not allowed to be empty"
+  },
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "metadata": {
+        "challengeProminence": "0.2",
+        "memberProminence": "777"
+      }
+    },
+    "httpCode": 400,
+    "message": "memberProminence must be a string with value in the range [0, 1]"
+  },
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "metadata": {
+        "challengeProminence": "777",
+        "memberProminence": "0.2"
+      }
+    },
+    "httpCode": 400,
+    "message": "challengeProminence must be a string with value in the range [0, 1]"
+  },
+  {
+    "id": "{{SKILL_1}}",
+    "input": {
+      "name": "POSTMANE2E-skill_02_by_admin",
+      "taxonomyId":"{{TAXONOMY_1}}",
+      "uri":"http://www.google.com",
+      "externalId":"externalId_01",
+      "metadata": {
+      }
+    },
+    "httpCode": 409,
+    "message": "Skill already exists with taxonomyId"
+  }
+]

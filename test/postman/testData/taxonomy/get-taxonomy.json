@@ -1,0 +1,22 @@
+[
+  {
+    "id": "{{TAXONOMY_1}}",
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_01_by_admin",
+      "metadata": {
+        "random_field_01": "random_value_01_by_admin"
+      }
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{TAXONOMY_4}}",
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_01_by_m2m",
+      "metadata": {
+        "random_field_01": "random_value_01_by_m2m"
+      }
+    },
+    "httpCode": 200
+  }
+]

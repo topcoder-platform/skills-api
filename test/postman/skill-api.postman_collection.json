@@ -1,0 +1,4883 @@
+{
+	"info": {
+		"_postman_id": "66b5954f-09f2-42bd-94ff-cb668b95ea87",
+		"name": "skill-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "taxonomies",
+			"item": [
+				{
+					"name": "create taxonomy",
+					"item": [
+						{
+							"name": "create taxonomy by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"    if (iterationData.get('idLabel')) {",
+											"        const idLabel = iterationData.get('idLabel')",
+											"        pm.environment.set(idLabel, response.id)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create taxonomy by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"    if (iterationData.get('idLabel')) {",
+											"        const idLabel = iterationData.get('idLabel')",
+											"        pm.environment.set(idLabel, response.id)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{m2m_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create taxonomy with all kinds of invalid request body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create taxonomy with all kinds of invalid token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    if (response.message) {",
+											"        pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"    } else {",
+											"        pm.expect(response.result.content.message).to.eq(iterationData.get('message'))",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"POSTMANE2E-taxonomy_valid\",\n    \"metadata\": {\n        \"a_valid_field\": \"a valid value\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "list taxonomies",
+					"item": [
+						{
+							"name": "list taxonomies by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list taxonomies by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list taxonomies by copilot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{copilot_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list taxonomies by user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list taxonomies by anonymous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list taxonomies with various parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gte(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"    pm.expect(response.length > 0).to.eq(true)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies?{{params}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									],
+									"query": [
+										{
+											"key": "{{params}}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list taxonomies with invalid parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies?{{params}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									],
+									"query": [
+										{
+											"key": "{{params}}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "head taxonomies",
+					"item": [
+						{
+							"name": "head taxonomies by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomies by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomies by copilot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{copilot_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomies by user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomies by anonymous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomies with various parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.headers",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        pm.expect(_.isEqual(response.get(key), expected[key])).to.eq(true)",
+											"    }",
+											"    pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"    pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies?{{params}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									],
+									"query": [
+										{
+											"key": "{{params}}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomies with invalid parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies?{{params}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies"
+									],
+									"query": [
+										{
+											"key": "{{params}}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get taxonomy",
+					"item": [
+						{
+							"name": "get taxonomy by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get taxonomy by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get taxonomy by copilot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{copilot_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get taxonomy by user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get taxonomy by anonymous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get taxonomy with invalid requests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "head taxonomy",
+					"item": [
+						{
+							"name": "head taxonomy by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomy by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomy by copilot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{copilot_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomy by user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomy by anonymous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head taxonomy with invalid requests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "patch taxonomy",
+					"item": [
+						{
+							"name": "patch taxonomy by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch taxonomy by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch taxonomy with all kinds of invalid request body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.contains(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch taxonomy with all kinds of invalid token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    if (response.message) {",
+											"        pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"    } else {",
+											"        pm.expect(response.result.content.message).to.eq(iterationData.get('message'))",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "update taxonomy",
+					"item": [
+						{
+							"name": "update taxonomy by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update taxonomy by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update taxonomy with all kinds of invalid request body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.contains(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update taxonomy with all kinds of invalid token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    if (response.message) {",
+											"        pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"    } else {",
+											"        pm.expect(response.result.content.message).to.eq(iterationData.get('message'))",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"POSTMANE2E-taxonomy_02_by_admin updated\",\n    \"metadata\": {}\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete taxonomy",
+					"item": [
+						{
+							"name": "delete taxonomy by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 204`, function () {",
+											"    pm.response.to.have.status(204)",
+											"    const response = pm.response.text()",
+											"    pm.expect(response).to.eq('')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{TAXONOMY_5}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{TAXONOMY_5}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete taxonomy by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 204`, function () {",
+											"    pm.response.to.have.status(204)",
+											"    const response = pm.response.text()",
+											"    pm.expect(response).to.eq('')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{TAXONOMY_6}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{TAXONOMY_6}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete taxonomy with all kinds of invalid request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    if (response.message) {",
+											"        pm.expect(response.message).to.contains(iterationData.get('message'))",
+											"    } else {",
+											"        pm.expect(response.result.content.message).to.eq(iterationData.get('message'))",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{jwtToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/taxonomies/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"taxonomies",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "skills",
+			"item": [
+				{
+					"name": "create skill",
+					"item": [
+						{
+							"name": "create skill by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"    if (iterationData.get('idLabel')) {",
+											"        const idLabel = iterationData.get('idLabel')",
+											"        pm.environment.set(idLabel, response.id)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create skill by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"    if (iterationData.get('idLabel')) {",
+											"        const idLabel = iterationData.get('idLabel')",
+											"        pm.environment.set(idLabel, response.id)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{m2m_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create skill with all kinds of invalid request body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.contain(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create skill with all kinds of invalid token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    if (response.message) {",
+											"        pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"    } else {",
+											"        pm.expect(response.result.content.message).to.eq(iterationData.get('message'))",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"taxonomyId\":\"{{TAXONOMY_1}}\",\n    \"name\": \"POSTMANE2E-skill_valid_name\",\n    \"metadata\": {\n        \"a_valid_field\": \"a valid value\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "list skills",
+					"item": [
+						{
+							"name": "list skills by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list skills by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list skills by copilot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{copilot_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list skills by user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list skills by anonymous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gt(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list skills with various parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"    pm.response.to.have.status(200);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.length).to.gte(0)",
+											"    const iterationData = pm.iterationData",
+											"    const expectedFields = iterationData.get('expectedFields')",
+											"    for (let item of response) {",
+											"        // make sure the list returns the expected fields",
+											"        pm.expect(expectedFields.every(r=> Object.keys(item).indexOf(r) >= 0)).to.eq(true)",
+											"    }",
+											"    pm.expect(response.length > 0).to.eq(true)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills?{{params}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									],
+									"query": [
+										{
+											"key": "{{params}}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list skills with invalid parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills?{{params}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									],
+									"query": [
+										{
+											"key": "{{params}}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "head skills",
+					"item": [
+						{
+							"name": "head skills by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skills by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skills by copilot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{copilot_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skills by user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skills by anonymous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 200`, function () {",
+											"  pm.response.to.have.status(200);",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Page'))).to.eq(1)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Per-Page'))).to.eq(20)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"  pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"  pm.expect(pm.response.headers.get('Link').length).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skills with various parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.headers",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        pm.expect(_.isEqual(response.get(key), expected[key])).to.eq(true)",
+											"    }",
+											"    pm.expect(parseInt(pm.response.headers.get('X-Total'))).to.gt(0)",
+											"    pm.expect(parseInt(pm.response.headers.get('X-Total-Pages'))).to.gt(0)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills?{{params}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									],
+									"query": [
+										{
+											"key": "{{params}}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skills with invalid parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills?{{params}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills"
+									],
+									"query": [
+										{
+											"key": "{{params}}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get skill",
+					"item": [
+						{
+							"name": "get skill by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get skill by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get skill by copilot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{copilot_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get skill by user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get skill by anonymous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    if(httpCode === 200){",
+											"        const response = pm.response.json()",
+											"        const iterationData = pm.iterationData",
+											"        const expected = iterationData.get('expected')",
+											"        for (let key of Object.keys(expected)) {",
+											"            if (_.isObject(response[key])) {",
+											"                pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"            } else {",
+											"                pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get skill with invalid requests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "head skill",
+					"item": [
+						{
+							"name": "head skill by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skill by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skill by copilot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{copilot_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skill by user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{user_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skill by anonymous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode); ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "head skill with invalid requests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "patch skill",
+					"item": [
+						{
+							"name": "patch skill by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch skill by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch skill with all kinds of invalid request body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.contains(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch skill with all kinds of invalid token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    if (response.message) {",
+											"        pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"    } else {",
+											"        pm.expect(response.result.content.message).to.eq(iterationData.get('message'))",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "update skill",
+					"item": [
+						{
+							"name": "update skill by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update skill by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    const iterationData = pm.iterationData",
+											"    const expected = iterationData.get('expected')",
+											"    for (let key of Object.keys(expected)) {",
+											"        if (_.isObject(response[key])) {",
+											"            pm.expect(_.isMatch(response[key], expected[key])).to.eq(true)",
+											"        } else {",
+											"            pm.expect(_.isEqual(response[key], expected[key])).to.eq(true)",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update skill with all kinds of invalid request body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    pm.expect(response.message).to.contains(iterationData.get('message'))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var inputJSONdata = pm.iterationData.get(\"input\");",
+											"pm.variables.set(\"input_body\",JSON.stringify(inputJSONdata));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{input_body}}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update skill with all kinds of invalid token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    if (response.message) {",
+											"        pm.expect(response.message).to.eq(iterationData.get('message'))",
+											"    } else {",
+											"        pm.expect(response.result.content.message).to.eq(iterationData.get('message'))",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"POSTMANE2E-skill_02_by_admin updated\",\n    \"taxonomyId\":\"{{TAXONOMY_1}}\",\n    \"metadata\": {}\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete skill",
+					"item": [
+						{
+							"name": "delete skill by admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 204`, function () {",
+											"    pm.response.to.have.status(204)",
+											"    const response = pm.response.text()",
+											"    pm.expect(response).to.eq('')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{SKILL_5}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{SKILL_5}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete skill by m2m",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(`Status code is 204`, function () {",
+											"    pm.response.to.have.status(204)",
+											"    const response = pm.response.text()",
+											"    pm.expect(response).to.eq('')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{m2m_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{SKILL_6}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{SKILL_6}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete skill with all kinds of invalid request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iterationData = pm.iterationData",
+											"const httpCode = iterationData.get('httpCode')",
+											"pm.test(`Status code is ${httpCode}`, function () {",
+											"    pm.response.to.have.status(httpCode);",
+											"    const response = pm.response.json()",
+											"    if (response.message) {",
+											"        pm.expect(response.message).to.contains(iterationData.get('message'))",
+											"    } else {",
+											"        pm.expect(response.result.content.message).to.eq(iterationData.get('message'))",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{jwtToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/skills/{{id}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"skills",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "health",
+			"item": [
+				{
+					"name": "check health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(`Status code is 200`, function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/health",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

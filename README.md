@@ -55,8 +55,26 @@ Configuration for the application is at `config/default.js` and `config/producti
 - `KAFKA_ERROR_TOPIC`: The error topic at which bus api will publish any errors
 - `KAFKA_MESSAGE_ORIGINATOR`: The originator value for the kafka messages
 - `SKILLS_ERROR_TOPIC`: Kafka topic for report operation error
+- `AUTOMATED_TESTING_NAME_PREFIX`:: the name prefix for every `Skill`/`Taxonomy` record
 
 **NOTE** AUTH0 related configuration normally is shared on challenge forum.
+
+
+Configuration for testing is at `config/test.js`, only add such new configurations different from `config/default.js`
+- API_BASE_URL: the api base url
+- API_VERSION: the api version
+- WAIT_TIME: wait time used in test, default is 6000 or 6 seconds
+- AUTH_V2_URL: The auth v2 url
+- AUTH_V2_CLIENT_ID: The auth v2 client id
+- AUTH_V3_URL: The auth v3 url
+- ADMIN_CREDENTIALS_USERNAME: The user's username with admin role
+- ADMIN_CREDENTIALS_PASSWORD: The user's password with admin role
+- COPILOT_CREDENTIALS_USERNAME: The user's username with copilot role
+- COPILOT_CREDENTIALS_PASSWORD: The user's password with copilot role
+- USER_CREDENTIALS_USERNAME: The user's username with user role
+- USER_CREDENTIALS_PASSWORD: The user's password with user role
+- AUTOMATED_TESTING_REPORTERS_FORMAT: indicates reporters format. It is an array of the formats. e.g. `['html']` produces html format. `['cli', 'json', 'junit', 'html']` is the full format.   
+  *For the details of the supported format, please refer to https://www.npmjs.com/package/newman#reporters*.
 
 ## DB and Elasticsearch In Docker
 - Navigate to the directory `docker-pgsql-es` folder. Rename `sample.env` to `.env` and change any values if required.
@@ -122,6 +140,8 @@ Setup your Postgresql DB and Elasticsearch instance and ensure that they are up 
 | `npm run delete-index` | Delete Elasticsearch indexes. Use `-- --force` flag to skip confirmation |
 | `npm run generate:doc:permissions` | Generate [permissions.html](docs/permissions.html) |
 | `npm run generate:doc:permissions:dev` | Generate [permissions.html](docs/permissions.html) on any changes (useful during development). |
+| `npm run test:newman`  | Run the postman E2E tests. |
+| `npm run test:newman:clear`  | Clear the testing data which is brought by the postman E2E tests. |
 
 ## JWT Authentication
 Authentication is handled via Authorization (Bearer) token header field. Token is a JWT token.
@@ -173,3 +193,60 @@ These tokens have been signed with the secret `CLIENT_SECRET`. This secret shoul
 
 - [permissions.html](docs/permissions.html) - the list of all permissions in Skills API.
 - [swagger.yaml](docs/swagger.yaml) - the Swagger API Definition.
+
+## Running tests
+
+### Configuration
+Test configuration is at `config/test.js`. You don't need to change them.
+
+The following test parameters can be set in config file or in env variables:
+
+- WAIT_TIME: wait time
+- AUTH_V2_URL: The auth v2 url
+- AUTH_V2_CLIENT_ID: The auth v2 client id
+- AUTH_V3_URL: The auth v3 url
+- ADMIN_CREDENTIALS_USERNAME: The user's username with admin role
+- ADMIN_CREDENTIALS_PASSWORD: The user's password with admin role
+- COPILOT_CREDENTIALS_USERNAME: The user's username with copilot role
+- COPILOT_CREDENTIALS_PASSWORD: The user's password with copilot role
+- USER_CREDENTIALS_USERNAME: The user's username with user role
+- USER_CREDENTIALS_PASSWORD: The user's password with user role
+- AUTOMATED_TESTING_REPORTERS_FORMAT: indicates reporters format. It is an array of the formats.
+
+### Prepare
+
+- Start local environment by running the `docker-compose up` from `docker-pgsql-es` folder. Make sure you have set the environment like `sample.env` form that folder.
+
+### Running E2E tests with Postman
+
+#### `Start` the app server before running e2e tests. You may need to set the env variables by calling `source env.sh` before calling `npm run test:newman`.
+
+- Make sure the db and es are started
+```bash
+  $ cd skills-api
+
+    # NOTE:
+    # if tables and data already exist, please run first
+
+    # $ npm run delete-data
+
+    # to drop data and tables
+
+  $ npm run create-db
+  $ npm run migrations up
+```
+
+To run postman e2e tests.
+
+```bash
+npm run test:newman
+```
+
+To clear the testing data from postman e2e tests.
+
+```bash
+npm run test:newman:clear
+```
+
+## Running tests in CI
+- TBD

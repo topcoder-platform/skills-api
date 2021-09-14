@@ -1,0 +1,28 @@
+[
+  {
+    "id": "{{SKILL_1}}",
+    "expected": {
+      "name": "POSTMANE2E-skill_01_by_admin",
+      "uri":"http://www.google.com",
+      "externalId":"externalId_01",
+      "metadata": {
+        "challengeProminence": "0.2",
+        "memberProminence": "0.5"
+      }
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{SKILL_4}}",
+    "expected": {
+      "name": "POSTMANE2E-skill_01_by_m2m",
+      "uri":"http://www.google.com",
+      "externalId":"externalId_01",
+      "metadata": {
+        "challengeProminence": "0.2",
+        "memberProminence": "0.5"
+      }
+    },
+    "httpCode": 200
+  }
+]

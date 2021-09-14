@@ -6,6 +6,9 @@ const config = require('config')
 const busApi = require('@topcoder-platform/topcoder-bus-api-wrapper')
 const busApiClient = busApi(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_TIME', 'AUTH0_CLIENT_ID',
   'AUTH0_CLIENT_SECRET', 'BUSAPI_URL', 'KAFKA_ERROR_TOPIC', 'AUTH0_PROXY_SERVER_URL']))
+const request = require('superagent')
+const m2mAuth = require('tc-core-library-js').auth.m2m
+const m2m = m2mAuth(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_TIME', 'AUTH0_PROXY_SERVER_URL']))
 
 /**
  * get auth user handle or id
@@ -130,11 +133,29 @@ async function publishError (topic, payload, action) {
   await busApiClient.postEvent(message)
 }
 
+/**
+ * Uses superagent to proxy post request
+ * @param {String} url the url
+ * @param {Object} data the query parameters, optional
+ * @returns {Object} the response
+ */
+async function postRequest (url, data) {
+  const m2mToken = await m2m.getMachineToken(config.AUTH0_CLIENT_ID, config.AUTH0_CLIENT_SECRET)
+
+  return request
+    .post(url)
+    .set('Authorization', `Bearer ${m2mToken}`)
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .send(data)
+}
+
 module.exports = {
   getAuthUser,
   injectSearchMeta,
   setLastModifiedHeader,
   getControllerMethods,
   omitAuditFields,
-  publishError
+  publishError,
+  postRequest
 }

@@ -1,0 +1,46 @@
+[
+  {
+    "input": {
+      "name": "POSTMANE2E-taxonomy_01_by_admin",
+      "metadata": {
+        "random_field_01": "random_value_01_by_admin"
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_01_by_admin",
+      "metadata": {
+        "random_field_01": "random_value_01_by_admin"
+      }
+    },
+    "idLabel": "TAXONOMY_1",
+    "httpCode": 200
+  },
+  {
+    "input": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin",
+      "metadata": {
+        "abc": "random_value_02_by_admin",
+        "efg": 123
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin",
+      "metadata": {
+        "abc": "random_value_02_by_admin",
+        "efg": 123
+      }
+    },
+    "idLabel": "TAXONOMY_2",
+    "httpCode": 200
+  },
+  {
+    "input": {
+      "name": "POSTMANE2E-taxonomy_03_by_admin"
+    },
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_03_by_admin"
+    },
+    "idLabel": "TAXONOMY_3",
+    "httpCode": 200
+  }
+]

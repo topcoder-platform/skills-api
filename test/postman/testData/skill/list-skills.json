@@ -1,0 +1,13 @@
+[
+  {
+    "expectedFields": [
+      "id",
+      "name",
+      "metadata",
+      "externalId",
+      "uri",
+      "taxonomyId",
+      "taxonomyName"
+    ]
+  }
+]
