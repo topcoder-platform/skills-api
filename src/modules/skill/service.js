@@ -69,7 +69,7 @@ create.schema = {
 }
 
 /**
- * Update skill by id. Used in functions patch and fullyUpdate.
+ * Update skill by id. Used in functions patch.
  *
  * @param instance the skill instance
  * @param updateData the data to be updated
@@ -115,14 +115,6 @@ async function patch (id, entity, auth) {
   // check if the skill exists or not
   const instance = await dbHelper.get(Skill, id)
 
-  if (entity.taxonomyId && entity.taxonomyId !== instance.taxonomyId) {
-    // check if the taxonomy exists or not
-    await dbHelper.get(Taxonomy, entity.taxonomyId)
-  }
-
-  // check if the skill has conflict or not
-  await dbHelper.makeSureUnique(Skill, { ...entity, id }, uniqueFields)
-
   if (entity.metadata) {
     const inputFields = Object.keys(entity.metadata)
     const existingFields = Object.keys(instance.metadata)
@@ -138,7 +130,7 @@ async function patch (id, entity, auth) {
     }
   }
 
-  const updateData = { ...instance, ...entity, metadata: { ...instance.metadata, ...entity.metadata } }
+  const updateData = { ...instance, metadata: { ...instance.metadata, ...entity.metadata } }
 
   return update(instance, updateData, auth)
 }
@@ -155,56 +147,6 @@ patch.schema = {
       memberProminence: joi.prominence('memberProminence')
     }).unknown(true)
   }).min(1).required(),
-  auth: joi.object()
-}
-
-/**
- * Fully update skill by id.
- * Existing metadata fields would be entirely replace with the new ones.
- *
- * @param id the skill id
- * @param entity the request skill entity
- * @param auth the auth object
- * @return the updated skill
- */
-async function fullyUpdate (id, entity, auth) {
-  // check if the skill exists or not
-  const instance = await dbHelper.get(Skill, id)
-
-  if (entity.taxonomyId !== instance.taxonomyId) {
-    // check if the taxonomy exists or not
-    await dbHelper.get(Taxonomy, entity.taxonomyId)
-  }
-
-  // check if the skill has conflict or not
-  await dbHelper.makeSureUnique(Skill, { ...entity, id }, uniqueFields)
-
-  if (Object.keys(entity.metadata).length) {
-    // check permission for adding new metadata fields
-    serviceHelper.hasPermission(PERMISSION.ADD_SKILL_METADATA, auth)
-  }
-  if (Object.keys(instance.metadata).length) {
-    // check permission for removing existing metadata fields
-    serviceHelper.hasPermission(PERMISSION.DELETE_SKILL_METADATA, auth)
-  }
-
-  const updateData = entity
-
-  return update(instance, updateData, auth)
-}
-
-fullyUpdate.schema = {
-  id: joi.string().uuid().required(),
-  entity: joi.object().keys({
-    taxonomyId: joi.string().uuid().required(),
-    name: joi.string().required(),
-    uri: joi.string().default(null),
-    externalId: joi.string().default(null),
-    metadata: joi.object().keys({
-      challengeProminence: joi.prominence('challengeProminence'),
-      memberProminence: joi.prominence('memberProminence')
-    }).unknown(true).required()
-  }).required(),
   auth: joi.object()
 }
 
@@ -333,7 +275,6 @@ module.exports = {
   create,
   search,
   patch,
-  fullyUpdate,
   get,
   remove
 }

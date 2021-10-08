@@ -115,7 +115,7 @@ async function patch (id, entity, auth) {
     }
   }
 
-  const updateData = { ...instance, ...entity, metadata: { ...instance.metadata, ...entity.metadata } }
+  const updateData = { ...instance, metadata: { ...instance.metadata, ...entity.metadata } }
 
   return update(instance, updateData, auth)
 }
@@ -126,44 +126,6 @@ patch.schema = {
     name: joi.string(),
     metadata: joi.object()
   }).min(1).required(),
-  auth: joi.object()
-}
-
-/**
- * Fully update taxonomy by id.
- * Existing metadata fields would be entirely replace with the new ones.
- *
- * @param id the taxonomy id
- * @param entity the request taxonomy entity
- * @param auth the auth object
- * @param params the query params
- * @return the updated taxonomy
- */
-async function fullyUpdate (id, entity, auth) {
-  const instance = await dbHelper.get(Taxonomy, id)
-
-  if (entity.metadata) {
-    if (Object.keys(entity.metadata).length) {
-      // check permission for adding new metadata fields
-      serviceHelper.hasPermission(PERMISSION.ADD_TAXONOMY_METADATA, auth)
-    }
-    if (Object.keys(instance.metadata).length) {
-      // check permission for removing existing metadata fields
-      serviceHelper.hasPermission(PERMISSION.DELETE_TAXONOMY_METADATA, auth)
-    }
-  }
-
-  const updateData = entity
-
-  return update(instance, updateData, auth)
-}
-
-fullyUpdate.schema = {
-  id: joi.string().uuid().required(),
-  entity: joi.object().keys({
-    name: joi.string().required(),
-    metadata: joi.object().default({})
-  }).required(),
   auth: joi.object()
 }
 
@@ -261,7 +223,6 @@ module.exports = {
   create,
   search,
   patch,
-  fullyUpdate,
   get,
   remove
 }
