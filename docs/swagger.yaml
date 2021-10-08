@@ -303,55 +303,7 @@ paths:
           name: "body"
           required: true
           schema:
-            $ref: "#/definitions/SkillUpdateRequestBody"
-      responses:
-        "200":
-          description: "OK - the request was successful"
-          schema:
-            $ref: "#/definitions/Skill"
-        "400":
-          $ref: "#/definitions/BadRequest"
-        "401":
-          $ref: "#/definitions/Unauthorized"
-        "403":
-          $ref: "#/definitions/Forbidden"
-        "404":
-          $ref: "#/definitions/NotFound"
-        "409":
-          $ref: "#/definitions/Conflict"
-        "500":
-          $ref: "#/definitions/ServerError"
-      security:
-        - Bearer: []
-      x-swagger-router-controller: "Skills"
-
-    put:
-      tags:
-        - "Skills"
-      description: >
-        Fully update an existing skill with given id.
-
-
-        **PERMISSION**
-
-        1. permission `UPDATE_SKILL` is required to perform this operation
-
-        2. permission `ADD_SKILL_METADATA` is required if new metadata fields are provided.
-
-        3. permission `DELETE_SKILL_METADATA` is required if there is any existing metadata field in the skill.
-      operationId: "skillsSkillIdPUT"
-      parameters:
-        - name: "skillId"
-          in: "path"
-          description: "The skill id"
-          required: true
-          type: "string"
-          format: "UUID"
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/SkillRequestBody"
+            $ref: "#/definitions/SkillPatchRequestBody"
       responses:
         "200":
           description: "OK - the request was successful"
@@ -611,54 +563,7 @@ paths:
           name: "body"
           required: true
           schema:
-            $ref: "#/definitions/TaxonomyUpdateRequestBody"
-      responses:
-        "200":
-          description: "OK - the request was successful"
-          schema:
-            $ref: "#/definitions/Taxonomy"
-        "400":
-          $ref: "#/definitions/BadRequest"
-        "401":
-          $ref: "#/definitions/Unauthorized"
-        "403":
-          $ref: "#/definitions/Forbidden"
-        "404":
-          $ref: "#/definitions/NotFound"
-        "409":
-          $ref: "#/definitions/Conflict"
-        "500":
-          $ref: "#/definitions/ServerError"
-      security:
-        - Bearer: []
-      x-swagger-router-controller: "Taxonomy"
-    put:
-      tags:
-        - "Taxonomies"
-      description: >
-        Fully update an existing taxonomy with given id.
-
-
-        **PERMISSION**
-
-        1. permission `UPDATE_TAXONOMY` is required to perform this operation
-
-        2. permission `ADD_TAXONOMY_METADATA` is required if any metadata field is provided.
-
-        3. permission `DELETE_TAXONOMY_METADATA` is required if there is any existing metadata field in the taxonomy.
-      operationId: "skillstaxonomiestaxonomyIdPUT"
-      parameters:
-        - name: "taxonomyId"
-          in: "path"
-          description: "The taxonomy id"
-          required: true
-          type: "string"
-          format: "UUID"
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/TaxonomyRequestBody"
+            $ref: "#/definitions/TaxonomyPatchRequestBody"
       responses:
         "200":
           description: "OK - the request was successful"
@@ -788,6 +693,23 @@ definitions:
       metadata:
         challengeProminence: "challengeProminence"
         memberProminence: "memberProminence"
+  SkillPatchRequestBody:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "The metadata for the skill"
+        properties:
+          challengeProminence:
+            type: "string"
+            description: "The challenge prominence ranging from [0, 1]"
+          memberProminence:
+            type: "string"
+            description: "The member prominence ranging from [0, 1]"
+    example:
+      metadata:
+        challengeProminence: "challengeProminence"
+        memberProminence: "memberProminence"
   Taxonomy:
     allOf:
       - type: "object"
@@ -829,6 +751,15 @@ definitions:
         description: "The metadata of the taxonomy."
     example:
       name: "name"
+      metadata:
+        random_field_name_01: random_value_01
+  TaxonomyPatchRequestBody:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "The metadata of the taxonomy."
+    example:
       metadata:
         random_field_name_01: random_value_01
   Unauthorized:

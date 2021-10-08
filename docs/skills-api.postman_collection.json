@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8d22bd52-0b64-43a5-9db3-c8516cb3e371",
+		"_postman_id": "f4b1365c-fcee-492c-848a-c7c5a49a779f",
 		"name": "skills-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -90,41 +90,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"taxonomies_update12\",\n    \"metadata\": {\n        \"version\": \"1.0.0\"\n    }\n}"
-						},
-						"url": {
-							"raw": "{{HOST}}/taxonomies/{{taxonomyId}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"taxonomies",
-								"{{taxonomyId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "{{HOST}}/taxonomies/:id",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"taxonomies_update\",\n    \"metadata\": {\n        \"new_metadata_field\": \"value\"\n    }\n}"
+							"raw": "{\n    \"metadata\": {\n        \"version\": \"1.0.0\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{HOST}}/taxonomies/{{taxonomyId}}",
@@ -319,41 +285,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"skill_name_update23\",\n    \"metadata\": {\n        \"memberProminence\": \"0.75\",\n        \"version\": \"0.1.0\"\n    }\n}"
-						},
-						"url": {
-							"raw": "{{HOST}}/skills/{{skillId}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"skills",
-								"{{skillId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "{{HOST}}/skills/:id",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"taxonomyId\":\"{{taxonomyId}}\",\n\t\"name\":\"jump6\",\n    \"metadata\": {\n        \"challengeProminence\": \"0.2\"\n    }\n}"
+							"raw": "{\n    \"metadata\": {\n        \"memberProminence\": \"0.75\",\n        \"version\": \"0.1.0\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{HOST}}/skills/{{skillId}}",
