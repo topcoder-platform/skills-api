@@ -23,7 +23,7 @@
     "url": ""
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^7.9.1",
+    "@elastic/elasticsearch": "^7.15.0",
     "@hapi/joi": "^16.1.8",
     "@topcoder-platform/topcoder-bus-api-wrapper": "github:topcoder-platform/tc-bus-api-wrapper",
     "body-parser": "^1.19.0",
