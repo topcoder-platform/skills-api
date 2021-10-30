@@ -37,7 +37,7 @@
     "lodash": "^4.17.19",
     "pgtools": "^0.3.0",
     "prompt-confirm": "^2.0.4",
-    "sequelize": "^6.3.5",
+    "sequelize": "^6.7.0",
     "swagger-ui-express": "^4.1.4",
     "tc-core-library-js": "github:appirio-tech/tc-core-library-js#v2.6.4",
     "umzug": "^2.3.0",
