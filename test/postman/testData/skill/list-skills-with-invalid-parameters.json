@@ -1,0 +1,47 @@
+[
+  {
+    "params": "page=-1&perPage=10",
+    "httpCode": 400,
+    "message": "\"query.page\" must be larger than or equal to 1"
+  },
+  {
+    "params": "page=1&perPage=-10",
+    "httpCode": 400,
+    "message": "\"query.perPage\" must be larger than or equal to 1"
+  },
+  {
+    "params": "aaa=abc",
+    "httpCode": 400,
+    "message": "\"query.aaa\" is not allowed"
+  },
+  {
+    "params": "orderBy=invalid",
+    "httpCode": 500,
+    "message": "column Skill.orderBy does not exist"
+  },
+  {
+    "params": "taxonomyId=invalid",
+    "httpCode": 400,
+    "message": "\"query.taxonomyId\" must be a valid GUID"
+  },
+  {
+    "params": "taxonomyId=",
+    "httpCode": 400,
+    "message": "\"query.taxonomyId\" is not allowed to be empty"
+  },
+  {
+    "params": "orderBy=",
+    "httpCode": 400,
+    "message": "\"query.orderBy\" is not allowed to be empty"
+  },
+  {
+    "params": "externalId=",
+    "httpCode": 400,
+    "message": "\"query.externalId\" is not allowed to be empty"
+  },
+  {
+    "params": "name=",
+    "httpCode": 400,
+    "message": "\"query.name\" is not allowed to be empty"
+  }
+]

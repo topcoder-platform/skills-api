@@ -1,0 +1,20 @@
+[
+  {
+    "params": "name=POSTMANE2E-taxonomy_01_by_admin",
+    "expected": {
+      "X-Page": "1",
+      "X-Per-Page": "20"
+    },
+    "httpCode": 200
+  },
+  {
+    "params": "page=2&perPage=1",
+    "expected": {
+      "X-Prev-Page": "1",
+      "X-Next-Page": "3",
+      "X-Page": "2",
+      "X-Per-Page": "1"
+    },
+    "httpCode": 200
+  }
+]

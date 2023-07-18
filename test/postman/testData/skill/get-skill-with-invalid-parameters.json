@@ -1,0 +1,12 @@
+[
+  {
+    "id": "12345",
+    "httpCode": 400,
+    "message": "\"id\" must be a valid GUID"
+  },
+  {
+    "id": "6ffcbc99-7891-48c7-8c0c-84940f405e9b",
+    "httpCode": 404,
+    "message": "cannot find Skill where id = 6ffcbc99-7891-48c7-8c0c-84940f405e9b"
+  }
+]

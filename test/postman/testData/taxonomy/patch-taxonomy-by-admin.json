@@ -1,0 +1,42 @@
+[
+  {
+    "id": "{{TAXONOMY_1}}",
+    "input": {
+      "name": "POSTMANE2E-taxonomy_01_by_admin updated"
+    },
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_01_by_admin updated"
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{TAXONOMY_1}}",
+    "input": {
+      "metadata": {
+        "field updated": "field_value updated"
+      }
+    },
+    "expected": {
+      "metadata": {
+        "field updated": "field_value updated"
+      }
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{TAXONOMY_1}}",
+    "input": {
+      "name": "POSTMANE2E-taxonomy_01_by_admin updated 2",
+      "metadata": {
+        "field updated": "field_value updated 2"
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_01_by_admin updated 2",
+      "metadata": {
+        "field updated": "field_value updated 2"
+      }
+    },
+    "httpCode": 200
+  }
+]

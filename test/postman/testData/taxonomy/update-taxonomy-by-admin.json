@@ -1,0 +1,32 @@
+[
+  {
+    "id": "{{TAXONOMY_2}}",
+    "input": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin updated",
+      "metadata": {
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin updated",
+      "metadata": {
+      }
+    },
+    "httpCode": 200
+  },
+  {
+    "id": "{{TAXONOMY_2}}",
+    "input": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin updated 2",
+      "metadata": {
+        "field updated": "field_value updated 2"
+      }
+    },
+    "expected": {
+      "name": "POSTMANE2E-taxonomy_02_by_admin updated 2",
+      "metadata": {
+        "field updated": "field_value updated 2"
+      }
+    },
+    "httpCode": 200
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "{{TAXONOMY_1}}",
+    "httpCode": 200
+  },
+  {
+    "id": "{{TAXONOMY_4}}",
+    "httpCode": 200
+  }
+]
