@@ -9,10 +9,6 @@ const cross = require('cors')
 const bodyParser = require('body-parser')
 const _ = require('lodash')
 const http = require('http')
-const swaggerUi = require('swagger-ui-express')
-const jsyaml = require('js-yaml')
-const fs = require('fs')
-const path = require('path')
 const logger = require('./src/common/logger')
 const errorMiddleware = require('./src/common/error.middleware')
 const routes = require('./src/route')
@@ -63,10 +59,11 @@ _.each(routes, (verbs, url) => {
   })
 })
 app.use('/', apiRouter)
-const spec = fs.readFileSync(path.join(__dirname, 'docs/swagger.yaml'), 'utf8')
-const swaggerDoc = jsyaml.safeLoad(spec)
+// disable swagger docs as we do not want use them served by this service
+// const spec = fs.readFileSync(path.join(__dirname, 'docs/swagger.yaml'), 'utf8')
+// const swaggerDoc = jsyaml.safeLoad(spec)
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+// app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
 app.use(errorMiddleware())
 app.use('*', (req, res) => {
