@@ -6,7 +6,6 @@ const joi = require('@hapi/joi')
 const _ = require('lodash')
 
 const errors = require('../../common/errors')
-const helper = require('../../common/helper')
 const dbHelper = require('../../common/db-helper')
 const sequelize = require('../../models/index')
 
@@ -28,7 +27,7 @@ async function get (id, params, query = {}) {
   }
   const skill = recordObj.dataValues
 
-  return helper.omitAuditFields(skill)
+  return skill
 }
 
 get.schema = {
@@ -45,7 +44,6 @@ async function search (query) {
   let items = await dbHelper.find(TCSkill, query)
 
   items = items.map(item => item.dataValues)
-  items = helper.omitAuditFields(items)
   return { fromDb: true, result: items, total: items.length }
 }
 
@@ -53,9 +51,7 @@ search.schema = {
   query: {
     page: joi.page(),
     perPage: joi.pageSize(),
-    taxonomyId: joi.string().uuid(),
     name: joi.string(),
-    externalId: joi.string(),
     orderBy: joi.string()
   }
 }
