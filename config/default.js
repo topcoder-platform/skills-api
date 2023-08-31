@@ -7,7 +7,8 @@ module.exports = {
   PORT: process.env.PORT || 3001,
 
   AUTH_SECRET: process.env.AUTH_SECRET || 'CLIENT_SECRET',
-  VALID_ISSUERS: process.env.VALID_ISSUERS ? process.env.VALID_ISSUERS.replace(/\\"/g, '')
+  VALID_ISSUERS: process.env.VALID_ISSUERS
+    ? process.env.VALID_ISSUERS.replace(/\\"/g, '')
     : '["https://topcoder-dev.auth0.com/", "https://api.topcoder.com"]',
 
   PAGE_SIZE: process.env.PAGE_SIZE || 20,
@@ -38,7 +39,7 @@ module.exports = {
   ES: {
     HOST: process.env.ES_HOST || 'http://localhost:9200',
     ES_REFRESH: process.env.ES_REFRESH || 'true',
-    ES_API_VERSION: process.env.ES_API_VERSION || "7.4",
+    ES_API_VERSION: process.env.ES_API_VERSION || '7.4',
 
     ELASTICCLOUD: {
       id: process.env.ELASTICCLOUD_ID,

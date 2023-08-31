@@ -32,7 +32,7 @@ async function createIndex (index, logger) {
   await esClient.indices.create({ index })
   await esClient.indices.close({ index })
   await esClient.indices.putSettings({
-    index: index,
+    index,
     body: {
       settings: {
         analysis: {

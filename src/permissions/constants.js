@@ -53,11 +53,12 @@ const {
 /**
  * M2M scopes to "write" projects
  */
-const SCOPES_PROJECTS_WRITE = [
-  M2M_SCOPES.CONNECT_PROJECT_ADMIN,
-  M2M_SCOPES.PROJECTS.ALL,
-  M2M_SCOPES.PROJECTS.WRITE
-]
+// Commented out because it appears to be unused
+// const SCOPES_PROJECTS_WRITE = [
+//   M2M_SCOPES.CONNECT_PROJECT_ADMIN,
+//   M2M_SCOPES.PROJECTS.ALL,
+//   M2M_SCOPES.PROJECTS.WRITE
+// ]
 
 /**
  * The full list of possible permission rules

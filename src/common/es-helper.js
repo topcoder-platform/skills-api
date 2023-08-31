@@ -77,18 +77,20 @@ async function updateESRecord (esResourceName, data) {
     type: resourceConfig.type,
     refresh: config.get('ES.ES_REFRESH'),
     id: data.id,
-    body: data.metadata ? {
-      script: {
-        lang: 'painless',
-        source: 'ctx._source = params.data; ctx._source.metadata = params.metadata',
-        params: {
-          data: _.omit(data, ['metadata']),
-          metadata: data.metadata
+    body: data.metadata
+      ? {
+          script: {
+            lang: 'painless',
+            source: 'ctx._source = params.data; ctx._source.metadata = params.metadata',
+            params: {
+              data: _.omit(data, ['metadata']),
+              metadata: data.metadata
+            }
+          }
         }
-      }
-    } : {
-      doc: data
-    }
+      : {
+          doc: data
+        }
   })
 }
 
@@ -103,7 +105,7 @@ async function deleteESRecord (esResourceName, id) {
     index: resourceConfig.index,
     type: resourceConfig.type,
     refresh: config.get('ES.ES_REFRESH'),
-    id: id
+    id
   })
 }
 
@@ -123,7 +125,7 @@ async function getFromElasticSearch (resource, ...args) {
   const esQuery = {
     index: doc.index,
     type: doc.type,
-    id: id
+    id
   }
 
   logger.debug(`ES query for get ${resource}: ${JSON.stringify(esQuery, null, 2)}`)

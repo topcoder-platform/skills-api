@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = {
-  up: async (query) => {
-    await query.createTable('Skills', {
+  up: async ({ context: queryInterface }) => {
+    await queryInterface.createTable('Skills', {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
@@ -35,7 +35,7 @@ module.exports = {
       }
     })
   },
-  down: async (query) => {
-    await query.dropTable('Skills')
+  down: async ({ context: queryInterface }) => {
+    await queryInterface.dropTable('Skills')
   }
 }

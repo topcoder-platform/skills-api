@@ -1,24 +1,21 @@
 const sequelize = require('../../src/models/index')
 const path = require('path')
-const Umzug = require('umzug')
+const { Umzug, SequelizeStorage } = require('umzug')
 
 function getUmzug () {
   return new Umzug({
     migrations: {
-      // indicates the folder containing the migration .js files
-      path: path.join(__dirname, './migrations'),
+      glob: path.join(__dirname, './migrations/*.js'),
       // inject sequelize's QueryInterface in the migrations
       params: [
         sequelize.getQueryInterface()
       ]
     },
+    context: sequelize.getQueryInterface(),
     // indicates that the migration data should be store in the database
     // itself through sequelize. The default configuration creates a table
     // named `SequelizeMeta`.
-    storage: 'sequelize',
-    storageOptions: {
-      sequelize: sequelize
-    }
+    storage: new SequelizeStorage({ sequelize })
   })
 }
 

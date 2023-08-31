@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = {
-  up: async (query) => {
-    await query.addColumn('Skills', 'taxonomyId', {
+  up: async ({ context: queryInterface }) => {
+    await queryInterface.addColumn('Skills', 'taxonomyId', {
       type: DataTypes.UUID,
       references: {
         model: 'Taxonomies',
@@ -11,7 +11,7 @@ module.exports = {
       onUpdate: 'CASCADE'
     })
   },
-  down: async (query) => {
-    await query.removeColumn('Skills', 'taxonomyId')
+  down: async ({ context: queryInterface }) => {
+    await queryInterface.removeColumn('Skills', 'taxonomyId')
   }
 }
