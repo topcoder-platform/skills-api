@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize')
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
-
     await queryInterface.createTable('TCSkills', {
       id: {
         primaryKey: true,
@@ -26,10 +25,9 @@ module.exports = {
     })
 
     await queryInterface.addIndex('TCSkills', ['name'], {
-      name: "TCSkill_name_key",
-      unique: true,
+      name: 'TCSkill_name_key',
+      unique: true
     })
-
   },
   down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('TCSkills')

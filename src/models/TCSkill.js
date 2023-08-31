@@ -19,12 +19,12 @@ module.exports = (sequelize) => {
     timestamps: true,
     indexes: [
       {
-        name: "TCSkill_name_key",
+        name: 'TCSkill_name_key',
         unique: true,
         fields: [
-          { name: "name" },
+          { name: 'name' }
         ]
-      },
+      }
     ]
   })
   return TCSkill
