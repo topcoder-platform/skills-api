@@ -70,7 +70,7 @@ workflows:
             branches:
               only:
                 - develop
-                - feature/enrich
+                - tc-skills
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
