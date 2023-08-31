@@ -23,34 +23,34 @@
     "url": ""
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^7.9.1",
+    "@elastic/elasticsearch": "^8.9.0",
     "@hapi/joi": "^16.1.8",
     "@topcoder-platform/topcoder-bus-api-wrapper": "github:topcoder-platform/tc-bus-api-wrapper",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.2",
     "cls-hooked": "^4.2.2",
-    "config": "^3.2.4",
+    "config": "^3.3.9",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "get-parameter-names": "^0.3.0",
-    "handlebars": "^4.7.7",
-    "js-yaml": "^3.13.1",
-    "lodash": "^4.17.19",
-    "pgtools": "^0.3.0",
+    "handlebars": "^4.7.8",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
+    "pgtools": "^1.0.1",
     "prompt-confirm": "^2.0.4",
-    "sequelize": "^6.3.5",
-    "swagger-ui-express": "^4.1.4",
-    "tc-core-library-js": "github:appirio-tech/tc-core-library-js#v2.6.4",
-    "umzug": "^2.3.0",
-    "aws-sdk": "^2.610.0",
-    "http-aws-es": "^4.0.0",
-    "elasticsearch": "^16.1.1",
-    "winston": "^3.2.1"
+    "sequelize": "^6.32.1",
+    "swagger-ui-express": "^5.0.0",
+    "tc-core-library-js": "github:appirio-tech/tc-core-library-js#v2.6.8",
+    "umzug": "^3.3.1",
+    "aws-sdk": "^2.1448.0",
+    "http-aws-es": "^6.0.0",
+    "elasticsearch": "^15.0.0",
+    "winston": "^3.10.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12",
-    "standard": "^14.3.0"
+    "nodemon": "^3.0.1",
+    "standard": "^17.1.0"
   },
   "engines": {
-    "node": "12.x"
+    "node": "18.17.0"
   }
 }
