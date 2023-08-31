@@ -2,34 +2,36 @@ const { DataTypes } = require('sequelize')
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
-    await queryInterface.createTable('Taxonomies', {
+
+    await queryInterface.createTable('TCSkills', {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
       },
-      createdBy: {
-        type: DataTypes.STRING
-      },
-      updatedBy: {
-        type: DataTypes.STRING
-      },
       name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
       },
-      metadata: {
-        type: DataTypes.JSONB
+      description: {
+        type: DataTypes.TEXT
       },
-      created: {
+      createdAt: {
         type: DataTypes.DATE,
         allowNull: false
       },
-      updated: {
+      updatedAt: {
         type: DataTypes.DATE
       }
     })
+
+    await queryInterface.addIndex('TCSkills', ['name'], {
+      name: "TCSkill_name_key",
+      unique: true,
+    })
+
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.dropTable('Taxonomies')
+    await queryInterface.dropTable('TCSkills')
   }
 }
