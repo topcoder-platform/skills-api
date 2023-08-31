@@ -11,7 +11,6 @@ const dbHelper = require('../../common/db-helper')
 const sequelize = require('../../models/index')
 
 const TCSkill = sequelize.models.TCSkill
-const Taxonomy = sequelize.models.Taxonomy
 
 /**
  * get skill by id
@@ -28,7 +27,6 @@ async function get (id, params, query = {}) {
     throw errors.newEntityNotFoundError(`cannot find ${TCSkill.name} where ${_.map(trueParams, (v, k) => `${k}:${v}`).join(', ')}`)
   }
   const skill = recordObj.dataValues
-  await populateTaxonomyNames(skill)
 
   return helper.omitAuditFields(skill)
 }
@@ -36,32 +34,6 @@ async function get (id, params, query = {}) {
 get.schema = {
   id: joi.string().uuid().required(),
   params: joi.object()
-}
-
-/**
- * Populates the taxonomy name for each of the skill
- * @param skills individual skill or an array of skills
- * @returns the updated skills object
- */
-async function populateTaxonomyNames (skills) {
-  if (_.isArray(skills)) {
-    const taxonomyMap = {}
-    for (const skill of skills) {
-      // dont populate if we already have the name
-      if (skill.taxonomyName) { continue }
-
-      if (!_.has(taxonomyMap, skill.taxonomyId)) {
-        const taxonomy = await dbHelper.get(Taxonomy, skill.taxonomyId)
-        taxonomyMap[skill.taxonomyId] = taxonomy.name
-      }
-      skill.taxonomyName = taxonomyMap[skill.taxonomyId]
-    }
-  } else {
-    const taxonomy = await dbHelper.get(Taxonomy, skills.taxonomyId)
-    skills.taxonomyName = taxonomy.name
-  }
-
-  return skills
 }
 
 /**
@@ -73,7 +45,6 @@ async function search (query) {
   let items = await dbHelper.find(TCSkill, query)
 
   items = items.map(item => item.dataValues)
-  await populateTaxonomyNames(items)
   items = helper.omitAuditFields(items)
   return { fromDb: true, result: items, total: items.length }
 }
