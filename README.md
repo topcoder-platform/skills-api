@@ -1,13 +1,15 @@
+# DEPRECATED - JAN 16, 2024 - see https://topcoder.atlassian.net/browse/CORE-208
+
 # Skills API
 
-* [Prerequisites](#prerequisites)
-* [Configuration](#configuration)
-* [Local deployment](#local-deployment)
-* [Migrations](#migrations)
-* [Local Deployment with Docker](#local-deployment-with-docker)
-* [NPM Commands](#npm-commands)
-* [JWT Authentication](#jwt-authentication)
-* [Documentation](#documentation)
+- [Prerequisites](#prerequisites)
+- [Configuration](#configuration)
+- [Local deployment](#local-deployment)
+- [Migrations](#migrations)
+- [Local Deployment with Docker](#local-deployment-with-docker)
+- [NPM Commands](#npm-commands)
+- [JWT Authentication](#jwt-authentication)
+- [Documentation](#documentation)
 
 ## Prerequisites
 
@@ -59,6 +61,7 @@ Configuration for the application is at `config/default.js` and `config/producti
 **NOTE** AUTH0 related configuration normally is shared on challenge forum.
 
 ## DB and Elasticsearch In Docker
+
 - Navigate to the directory `docker-pgsql-es` folder. Rename `sample.env` to `.env` and change any values if required.
 - Run `docker-compose up -d` to have docker instances of pgsql and elasticsearch to use with the api
 
@@ -69,8 +72,8 @@ Notice the `--volumes` argument is passed to the `docker-compose down` command t
 
 Setup your Postgresql DB and Elasticsearch instance and ensure that they are up and running.
 
-- Follow *Configuration* section to update config values, like database, ES host etc ..
-- Goto *skills-api*, run `npm i`
+- Follow _Configuration_ section to update config values, like database, ES host etc ..
+- Goto _skills-api_, run `npm i`
 - Create database using `npm run create-db`.
 - Run the migrations - `npm run migrations up`. This will create the tables.
 - Then run `npm run insert-data` and insert mock data into the database.
@@ -82,6 +85,7 @@ Setup your Postgresql DB and Elasticsearch instance and ensure that they are up 
 Migrations are located under the `./scripts/db/` folder. Run `npm run migrations up` and `npm run migrations down` to execute the migrations or remove the earlier ones
 
 ## Local Deployment with Docker
+
 Setup your Postgresql DB and Elasticsearch instance and ensure that they are up and running.
 
 - Configure AUTH0 related parameters via ENV variables. Note that normally you don't need to change other configuration.
@@ -98,32 +102,33 @@ Setup your Postgresql DB and Elasticsearch instance and ensure that they are up 
 
 - Once that is done, run the following command
 
-    ```bash
-    docker-compose up
-    ```
+  ```bash
+  docker-compose up
+  ```
 
 - When you are running the application for the first time, It will take some time initially to download the image and install the dependencies
 
 ## NPM Commands
 
-| Command&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description |
-|--------------------|--|
-| `npm run start`  | Start app |
-| `npm run start:dev`  | Start app on any changes (useful during development). |
-| `npm run lint`     | Check for for lint errors. |
-| `npm run lint:fix` | Check for for lint errors and fix error automatically when possible. |
-| `npm run create-db`    | Create the database |
-| `npm run insert-data`    | Insert data into the database |
-| `npm run migrate-db-to-es`    | Migrate data into elastic search from database |
-| `npm run delete-data`  | Delete the data from the database |
-| `npm run migrations up`  | Run up migration |
-| `npm run migrations down`  | Run down migration |
-| `npm run create-index` | Create Elasticsearch indexes. Use `-- --force` flag to skip confirmation |
-| `npm run delete-index` | Delete Elasticsearch indexes. Use `-- --force` flag to skip confirmation |
-| `npm run generate:doc:permissions` | Generate [permissions.html](docs/permissions.html) |
-| `npm run generate:doc:permissions:dev` | Generate [permissions.html](docs/permissions.html) on any changes (useful during development). |
+| Command&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `npm run start`                                                                                                           | Start app                                                                                      |
+| `npm run start:dev`                                                                                                       | Start app on any changes (useful during development).                                          |
+| `npm run lint`                                                                                                            | Check for for lint errors.                                                                     |
+| `npm run lint:fix`                                                                                                        | Check for for lint errors and fix error automatically when possible.                           |
+| `npm run create-db`                                                                                                       | Create the database                                                                            |
+| `npm run insert-data`                                                                                                     | Insert data into the database                                                                  |
+| `npm run migrate-db-to-es`                                                                                                | Migrate data into elastic search from database                                                 |
+| `npm run delete-data`                                                                                                     | Delete the data from the database                                                              |
+| `npm run migrations up`                                                                                                   | Run up migration                                                                               |
+| `npm run migrations down`                                                                                                 | Run down migration                                                                             |
+| `npm run create-index`                                                                                                    | Create Elasticsearch indexes. Use `-- --force` flag to skip confirmation                       |
+| `npm run delete-index`                                                                                                    | Delete Elasticsearch indexes. Use `-- --force` flag to skip confirmation                       |
+| `npm run generate:doc:permissions`                                                                                        | Generate [permissions.html](docs/permissions.html)                                             |
+| `npm run generate:doc:permissions:dev`                                                                                    | Generate [permissions.html](docs/permissions.html) on any changes (useful during development). |
 
 ## JWT Authentication
+
 Authentication is handled via Authorization (Bearer) token header field. Token is a JWT token.
 
 Here is a sample user token that is valid for a very long time for a user with administrator role.
